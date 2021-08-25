@@ -5,19 +5,29 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class Game_Controll : MonoBehaviour
 {
-    public Canvas canvas;
     public static Game_Controll Instance;
     public bool game, pause;
-
-    [SerializeField]
-    GameObject lose_panel;
-
+    [SerializeField] GameObject lose_panel;
+    [SerializeField] Text money_text;
+    [SerializeField] int money_int;
+    
     private void Awake()
     {
         Screen.orientation = ScreenOrientation.Portrait;
         if (Instance == null)
             Instance = this;
     }
+    private void Start()
+    {
+        money_int = 0;
+        money_text.text = money_int.ToString();
+    }
+    public void Add_money(int id)
+    {
+        money_int += id;
+        money_text.text = money_int.ToString();
+    }
+
     public void Load_level(string name)
     {
         Time.timeScale = 1;
@@ -29,13 +39,11 @@ public class Game_Controll : MonoBehaviour
         if (Time.timeScale == 0)
         {
             pause = false;
-            canvas.sortingOrder = 0;
             Time.timeScale = 1;
         }
         else
         {
             pause = true;
-            canvas.sortingOrder = 111;
             Time.timeScale = 0;
         }
     }

@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class Player_controll : MonoBehaviour
 {
+    [SerializeField] private Player_stats stats;
     public static Player_controll Instance;
     [SerializeField] private GameObject _camera;   
     [SerializeField] private int pos_state;
-    [SerializeField] private float speed;
+    [SerializeField] private float move_speed, rotate_speed, jump_speed, down_speed, fire_speed;
     public bool game, move, jump, down;
     [SerializeField] private List<GameObject> enemys;
     [SerializeField] Transform fire_pos;
@@ -29,6 +30,12 @@ public class Player_controll : MonoBehaviour
     }
     void Start()
     {
+        move_speed = Player_stats.Instance.move_speed;
+        fire_speed = Player_stats.Instance.attack_speed;
+
+        
+        down_anim.speed = Player_stats.Instance.down_speed;
+
         energy.value = 1;
         pos_state = 2;
         transform.position = new Vector2(xx_pos[pos_state], 0);
@@ -39,26 +46,34 @@ public class Player_controll : MonoBehaviour
         if(game)
         {
             if (energy.value < 1)
-            {
                 energy.value += 0.1f * Time.deltaTime;
-            }
+            if(fire_speed > 0)
+                fire_speed -= Time.deltaTime;
 
+            transform.Translate(Vector3.forward * move_speed * Time.deltaTime);
 
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
-
-            _camera.transform.position = new Vector3(0, transform.position.y, transform.position.z);
+            _camera.transform.position = new Vector3(transform.position.x, _camera.transform.position.y, transform.position.z);
 
             if (duble_clik_time > 0)
                 duble_clik_time -= Time.deltaTime;
 
-            if (Input.GetMouseButtonDown(0) && !jump && !move)
+            if (Input.GetMouseButtonDown(0) && !jump)
             {
-                if (duble_clik_time > 0)
+                if (energy.value > 0.2f && fire_speed <= 0 && !down)
                 {
-                    Jump(Camera.main.ScreenPointToRay(Input.mousePosition).direction.x > 0 ? 1 : 0);
-                }                    
-                else
-                    duble_clik_time = 0.3f;
+                    StartCoroutine(Fire());
+                    fire_speed = Player_stats.Instance.attack_speed;
+                }
+
+                if (!move)
+                {
+                    if (duble_clik_time > 0)
+                    {
+                        Jump(Camera.main.ScreenPointToRay(Input.mousePosition).direction.x > 0 ? 1 : 0);
+                    }
+                    else
+                        duble_clik_time = 0.3f;
+                }
 
                 firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             }
@@ -71,35 +86,36 @@ public class Player_controll : MonoBehaviour
 
                 if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip up
                 {
+                    player_anim.speed = Player_stats.Instance.jump_speed;
                     jump = true;
                     player_anim.SetTrigger("up");
-                    StartCoroutine(Off(1));
+                    StartCoroutine(Off(1/player_anim.speed));
                 }
                 if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip down
                 {
+                    up_anim.speed = Player_stats.Instance.down_speed;
                     down = true;
                     up_anim.SetTrigger("down");
-                    StartCoroutine(Off(1));
+                    StartCoroutine(Off(1 / up_anim.speed));
                 }
                 if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
                 {
-                    if (pos_state > 0)
-                        pos_state = pos_state - 1;                   
-                    StartCoroutine(DoMove(1));
+                    down_anim.speed = Player_stats.Instance.rotate_speed;
+                    pos_state = pos_state - 1;
+                    StartCoroutine(DoMove(1 / down_anim.speed));
                     move = true;
                     down_anim.SetTrigger("left");
-                    StartCoroutine(Off(1));
+                    StartCoroutine(Off(1 / down_anim.speed));
                 }
                 if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
                 {
-                    if (pos_state < 4)
-                        pos_state = pos_state + 1;
-                    StartCoroutine(DoMove(1));
+                    down_anim.speed = Player_stats.Instance.rotate_speed;
+                    pos_state = pos_state + 1;
+                    StartCoroutine(DoMove(1 / down_anim.speed));
                     move = true;
                     down_anim.SetTrigger("right");
-                    StartCoroutine(Off(1));
+                    StartCoroutine(Off(1 / down_anim.speed));
                 }
-
                 energy.value -= 0.2f;
             }
         }
@@ -108,19 +124,21 @@ public class Player_controll : MonoBehaviour
     {
         if (pos_state < 3 && id == 1)
         {
+            player_anim.speed = Player_stats.Instance.duble_jump_speed;
             pos_state = pos_state + 2;
-            StartCoroutine(DoMove(1));
+            StartCoroutine(DoMove(1/player_anim.speed));
             jump = true;
             player_anim.SetTrigger("right");
-            StartCoroutine(Off(1));
+            StartCoroutine(Off(1 / player_anim.speed));
         }
         if (pos_state > 1 && id == 0)
         {
+            player_anim.speed = Player_stats.Instance.duble_jump_speed;
             pos_state = pos_state - 2;
-            StartCoroutine(DoMove(1));
+            StartCoroutine(DoMove(1 / player_anim.speed));
             jump = true;
             player_anim.SetTrigger("left");
-            StartCoroutine(Off(1));
+            StartCoroutine(Off(1 / player_anim.speed));
         }
         duble_clik_time = 0f;
     }  
@@ -151,12 +169,11 @@ public class Player_controll : MonoBehaviour
 
         }
     }
-    void Fire()
+    IEnumerator Fire()
     {
-        if(!jump && !move && !down)
-        {
-
-        }
+        fire_pos.transform.GetChild(0).gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        fire_pos.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void Add_enemy(GameObject obj)

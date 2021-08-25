@@ -25,6 +25,6 @@ public class Spawner : MonoBehaviour
     {
         timer = Random.Range(min_time, max_time);
         GameObject obj = Instantiate(prefabs[Random.Range(0, prefabs.Length)]) as GameObject;
-        obj.transform.position = new Vector3(yy[Random.Range(0, yy.Length)], 1, player.transform.position.z + 100);
+        obj.transform.position = new Vector3(yy[Random.Range(0, yy.Length)], 0, player.transform.position.z + 100);
     }
 }
