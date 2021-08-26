@@ -6,15 +6,16 @@ using UnityEngine.UI;
 public class Player_controll : MonoBehaviour
 {
     public static Player_controll Instance;
-    [SerializeField] private GameObject _camera;   
+    [SerializeField] private GameObject _camera, cur_enemy;   
     [SerializeField] private int pos_state;
     [SerializeField] private float move_speed, fire_speed;
-    public bool game, move, jump, down, fire;
-    [SerializeField] private List<GameObject> enemys;
+    public bool game, move, jump, down;    
     [SerializeField] Transform fire_pos;
     [SerializeField] private float[] xx_pos;
     [SerializeField] private Animator player_anim, up_anim, fire_anim, down_anim;
     [SerializeField] private Slider energy;
+
+    [SerializeField] private GameObject[] enemys;
 
     Vector2 firstPressPos;
     Vector2 secondPressPos;
@@ -31,14 +32,9 @@ public class Player_controll : MonoBehaviour
     {
         move_speed = Player_stats.Instance.move_speed;
         fire_speed = Player_stats.Instance.attack_speed;
-
+        energy.value = 1;
         pos_state = 2;
         transform.position = new Vector2(xx_pos[pos_state], 0);
-        Continue();
-    }
-    public void Continue()
-    {
-        energy.value = 1;
         game = true;
     }
     void Update()
@@ -54,16 +50,18 @@ public class Player_controll : MonoBehaviour
 
             _camera.transform.position = new Vector3(transform.position.x, _camera.transform.position.y, transform.position.z);
 
-            if (duble_clik_time > 0)
+            if (duble_clik_time > 0)  // -- double click timer remove
                 duble_clik_time -= Time.deltaTime;
 
             if (Input.GetMouseButtonDown(0) && !jump)
             {
-                if (energy.value > 0.2f && fire_speed <= 0 && !down)
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Physics.Raycast(ray, out hit);
+                if (hit.collider != null && hit.collider.gameObject.tag == "Enemy")
                 {
-                    StartCoroutine(Fire());
-                    fire_speed = Player_stats.Instance.attack_speed;
-                }
+                    cur_enemy = hit.collider.gameObject;
+                }               
 
                 if (!move)
                 {
@@ -74,7 +72,6 @@ public class Player_controll : MonoBehaviour
                     else
                         duble_clik_time = 0.3f;
                 }
-
                 firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             }
 
@@ -84,39 +81,79 @@ public class Player_controll : MonoBehaviour
                 currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
                 currentSwipe.Normalize();
 
-                if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip up
+                if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
                 {
-                    player_anim.speed = Player_stats.Instance.jump_speed;
-                    jump = true;
-                    player_anim.SetTrigger("up");
-                    StartCoroutine(Off(1/player_anim.speed));
+                    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip up
+                    {
+                        player_anim.speed = Player_stats.Instance.jump_speed;
+                        jump = true;
+                        player_anim.SetTrigger("up");
+                        StartCoroutine(Off(1 / player_anim.speed));
+                    }
+                    if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip down
+                    {
+                        up_anim.speed = Player_stats.Instance.down_speed;
+                        down = true;
+                        up_anim.SetTrigger("down");
+                        StartCoroutine(Off(1 / up_anim.speed));
+                    }
+                    if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
+                    {
+                        down_anim.speed = Player_stats.Instance.rotate_speed;
+                        pos_state = pos_state - 1;
+                        StartCoroutine(DoMove(1 / down_anim.speed));
+                        move = true;
+                        down_anim.SetTrigger("left");
+                        StartCoroutine(Off(1 / down_anim.speed));
+                    }
+                    if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
+                    {
+                        down_anim.speed = Player_stats.Instance.rotate_speed;
+                        pos_state = pos_state + 1;
+                        StartCoroutine(DoMove(1 / down_anim.speed));
+                        move = true;
+                        down_anim.SetTrigger("right");
+                        StartCoroutine(Off(1 / down_anim.speed));
+                    }
+                    energy.value -= 0.2f;
                 }
-                if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip down
+            }
+        }
+    }
+    private void LateUpdate()
+    {
+        if (cur_enemy == null)
+        {
+            enemys = new GameObject[0];
+            enemys = GameObject.FindGameObjectsWithTag("Enemy");
+            for (int i = 0; i < enemys.Length; i++)
+            {
+                if ((enemys[i].transform.position.z > transform.position.z + 10) && (cur_enemy == null || cur_enemy != null && enemys[i].transform.position.z < cur_enemy.transform.position.z))
                 {
-                    up_anim.speed = Player_stats.Instance.down_speed;
-                    down = true;
-                    up_anim.SetTrigger("down");
-                    StartCoroutine(Off(1 / up_anim.speed));
+                    cur_enemy = enemys[i];
                 }
-                if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
+            }
+        }
+
+        if (cur_enemy != null && !jump)
+        {
+            Vector3 targetDirection = cur_enemy.transform.position - up_anim.gameObject.transform.position;
+            float singleStep = Player_stats.Instance.up_speed * Time.deltaTime;
+            Vector3 newDirection = Vector3.RotateTowards(up_anim.gameObject.transform.forward, targetDirection, singleStep, 0.0f);
+            up_anim.gameObject.transform.rotation = Quaternion.LookRotation(newDirection);
+
+            if (cur_enemy.transform.position.z < transform.position.z + 10)
+                cur_enemy = null;
+
+            RaycastHit hit;
+            Physics.Raycast(fire_pos.position, fire_pos.TransformDirection(Vector3.forward), out hit, 9990);                     
+            if (hit.collider != null && hit.collider.gameObject.tag == "Enemy" && hit.collider.gameObject == cur_enemy)
+            {
+                if (fire_speed <= 0 && !down) // --- auto shoot timer
                 {
-                    down_anim.speed = Player_stats.Instance.rotate_speed;
-                    pos_state = pos_state - 1;
-                    StartCoroutine(DoMove(1 / down_anim.speed));
-                    move = true;
-                    down_anim.SetTrigger("left");
-                    StartCoroutine(Off(1 / down_anim.speed));
+                    fire_speed = Player_stats.Instance.attack_speed;
+                    StartCoroutine(Fire());
                 }
-                if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
-                {
-                    down_anim.speed = Player_stats.Instance.rotate_speed;
-                    pos_state = pos_state + 1;
-                    StartCoroutine(DoMove(1 / down_anim.speed));
-                    move = true;
-                    down_anim.SetTrigger("right");
-                    StartCoroutine(Off(1 / down_anim.speed));
-                }
-                energy.value -= 0.2f;
             }
         }
     }
@@ -141,7 +178,8 @@ public class Player_controll : MonoBehaviour
             StartCoroutine(Off(1 / player_anim.speed));
         }
         duble_clik_time = 0f;
-    }  
+    } 
+    
     private IEnumerator DoMove(float time)
     {
         Vector2 startPosition = transform.position;
@@ -162,26 +200,19 @@ public class Player_controll : MonoBehaviour
         move = false;
     }
 
-    private void LateUpdate()
+   
+    public void Cleare_enemy(GameObject obj)
     {
-        for(int i = 0; i < enemys.Count; i++)
-        {
-
-        }
+        cur_enemy = null;
     }
+
     IEnumerator Fire()
     {
         fire_pos.transform.GetChild(0).gameObject.SetActive(true);
+        GameObject bull = PoolControll.Instance.Spawn_player_bullet();
+        bull.transform.position = fire_pos.transform.position;
+        bull.transform.rotation = fire_pos.transform.rotation;
         yield return new WaitForSeconds(0.3f);
         fire_pos.transform.GetChild(0).gameObject.SetActive(false);
-    }
-
-    public void Add_enemy(GameObject obj)
-    {
-        enemys.Add(obj);
-    }
-    public void Remove_enemy(GameObject obj)
-    {
-        enemys.Remove(obj);
-    }    
+    }      
 }

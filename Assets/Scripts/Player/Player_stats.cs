@@ -17,8 +17,12 @@ public class Player_stats : MonoBehaviour
     public float duble_jump_speed;
     [HeaderAttribute("Продолжительность прыжка")]
     public float jump_speed;
+    [HeaderAttribute("Скорость поворота башни")]
+    public float up_speed;
     [HeaderAttribute("Скорость пули")]
     public float ammo_speed;
+    [HeaderAttribute("Сила атаки пули")]
+    public float ammo_power;
 
     private void Awake()
     {

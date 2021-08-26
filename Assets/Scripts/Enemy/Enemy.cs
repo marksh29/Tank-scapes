@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] int life;
+    [SerializeField] float life;
     [SerializeField] float damage;
     [SerializeField] string fire_pos;
     [SerializeField] GameObject explos_prefab;
@@ -17,16 +17,18 @@ public class Enemy : MonoBehaviour
     {
         
     }
-    public void Damage(int id)
+    public void Damage(float id)
     {
         life -= id;
         if (life <= 0)
         {
+            gameObject.tag = "Untagged";
+            //GetComponent<MeshRenderer>().enabled = false;
             if (explos_prefab != null)
                 explos_prefab.SetActive(true);
             Destroy(gameObject, explos_prefab != null ? 1 : 0);
-        }
-           
+            Player_controll.Instance.Cleare_enemy(gameObject);
+        }           
     }
     private void OnTriggerEnter(Collider coll)
     {
