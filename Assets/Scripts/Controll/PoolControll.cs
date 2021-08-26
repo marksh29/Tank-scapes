@@ -79,7 +79,6 @@ public class PoolControll : MonoBehaviour
                 pl_bullet[i].SetActive(true);
                 not_empty = true;
                 new_bullet = pl_bullet[i];
-                //pl_bullet[i].transform.parent = GameObject.FindGameObjectWithTag("Respawn").transform;
                 break;
             }
         }
@@ -88,7 +87,6 @@ public class PoolControll : MonoBehaviour
             GameObject new_obj = Instantiate(bullet_player_prefab) as GameObject;
             pl_bullet.Add(new_obj);
             new_bullet = new_obj;
-            //new_obj.transform.parent = GameObject.FindGameObjectWithTag("Respawn").transform;
         }
         return new_bullet;
     }
