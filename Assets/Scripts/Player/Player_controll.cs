@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class Player_controll : MonoBehaviour
 {
-    [SerializeField] private Player_stats stats;
     public static Player_controll Instance;
     [SerializeField] private GameObject _camera;   
     [SerializeField] private int pos_state;
-    [SerializeField] private float move_speed, rotate_speed, jump_speed, down_speed, fire_speed;
-    public bool game, move, jump, down;
+    [SerializeField] private float move_speed, fire_speed;
+    public bool game, move, jump, down, fire;
     [SerializeField] private List<GameObject> enemys;
     [SerializeField] Transform fire_pos;
     [SerializeField] private float[] xx_pos;
@@ -33,12 +32,13 @@ public class Player_controll : MonoBehaviour
         move_speed = Player_stats.Instance.move_speed;
         fire_speed = Player_stats.Instance.attack_speed;
 
-        
-        down_anim.speed = Player_stats.Instance.down_speed;
-
-        energy.value = 1;
         pos_state = 2;
         transform.position = new Vector2(xx_pos[pos_state], 0);
+        Continue();
+    }
+    public void Continue()
+    {
+        energy.value = 1;
         game = true;
     }
     void Update()
