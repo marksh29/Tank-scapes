@@ -146,27 +146,14 @@ public class Player_controll : MonoBehaviour
                 cur_enemy = null;
 
             RaycastHit hit;
-            Vector3 fwd = transform.TransformDirection(Vector3.forward);
-            Physics.Raycast(fire_pos.position, fwd, out hit, 100);
-                      
-           // Debug.DrawLine(fire_pos.position, fwd, Color.red);
-
+            Physics.Raycast(fire_pos.position, fire_pos.TransformDirection(Vector3.forward), out hit, 9990);                     
             if (hit.collider != null && hit.collider.gameObject.tag == "Enemy" && hit.collider.gameObject == cur_enemy)
             {
-                print("ready!");
-            }
-
-            //Vector3 target = cur_enemy.transform.position;
-            //target.y = transform.position.y;
-            //Vector3 dir = target - transform.position;
-            //Vector3 forw = transform.forward;
-            //float angle = Vector3.SignedAngle(dir, forw, Vector3.up);
-            //print(angle);
-
-            if (fire_speed <= 0 && !down) // --- auto shoot timer
-            {
-                fire_speed = Player_stats.Instance.attack_speed;
-                //StartCoroutine(Fire());
+                if (fire_speed <= 0 && !down) // --- auto shoot timer
+                {
+                    fire_speed = Player_stats.Instance.attack_speed;
+                    StartCoroutine(Fire());
+                }
             }
         }
     }
