@@ -8,7 +8,11 @@ public class Player_bullet : MonoBehaviour
     [SerializeField] GameObject target;
     void Start()
     {
-        Destroy(gameObject, 5);
+        
+    }
+    private void OnEnable()
+    {
+        speed = Player_stats.Instance.ammo_speed;
     }
     void Update()
     {
@@ -25,7 +29,12 @@ public class Player_bullet : MonoBehaviour
     {
         if(coll.gameObject.tag == "Enemy")
         {
-
+            coll.gameObject.GetComponent<Enemy>().Damage(Player_stats.Instance.ammo_power);
+            gameObject.SetActive(false);
         }
+    }
+    private void OnBecameInvisible()
+    {
+        gameObject.SetActive(false);
     }
 }
