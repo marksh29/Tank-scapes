@@ -5,7 +5,7 @@ using UnityEngine;
 public class PoolControll : MonoBehaviour
 {
     public static PoolControll Instance;
-    [SerializeField] private GameObject enemy_prefab, bullet_player_prefab, bullet_enemy_prefab;
+    [SerializeField] private GameObject enemy_prefab, bullet_enemy_prefab, bullet_player_prefab;
     [SerializeField] private List<GameObject> enemy_stac, en_bullet, pl_bullet;
     [SerializeField] GameObject[] new_pos_obj;
     [SerializeField] Transform[] spawn_pos;

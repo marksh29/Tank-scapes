@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
 using UnityEditor;
+using System.Collections.Generic;
 
-namespace UnityStandardAssets.CrossPlatformInput.Inspector
+namespace UnitySampleAssets.CrossPlatformInput.Inspector
 {
     [InitializeOnLoad]
     public class CrossPlatformInitialize
@@ -32,9 +31,7 @@ namespace UnityStandardAssets.CrossPlatformInput.Inspector
             {
                 case BuildTarget.Android:
                 case BuildTarget.iOS:
-                case BuildTarget.PSM: 
-                case BuildTarget.Tizen: 
-                case BuildTarget.WSAPlayer: 
+                case BuildTarget.WSAPlayer:
                     EditorUtility.DisplayDialog("Mobile Input",
                                                 "You have enabled Mobile Input. You'll need to use the Unity Remote app on a connected device to control your game in the Editor.",
                                                 "OK");
@@ -65,6 +62,7 @@ namespace UnityStandardAssets.CrossPlatformInput.Inspector
             {
                 case BuildTarget.Android:
                 case BuildTarget.iOS:
+                case BuildTarget.WSAPlayer:
                     EditorUtility.DisplayDialog("Mobile Input",
                                                 "You have disabled Mobile Input. Mobile control rigs won't be visible, and the Cross Platform Input functions will always return standalone controls.",
                                                 "OK");
@@ -84,17 +82,17 @@ namespace UnityStandardAssets.CrossPlatformInput.Inspector
         private static BuildTargetGroup[] buildTargetGroups = new BuildTargetGroup[]
             {
                 BuildTargetGroup.Standalone,
+                BuildTargetGroup.WebGL,
                 BuildTargetGroup.Android,
-                BuildTargetGroup.iOS
+                BuildTargetGroup.iOS,
+                BuildTargetGroup.WSA,
             };
 
         private static BuildTargetGroup[] mobileBuildTargetGroups = new BuildTargetGroup[]
             {
                 BuildTargetGroup.Android,
                 BuildTargetGroup.iOS,
-                BuildTargetGroup.PSM, 
-                BuildTargetGroup.Tizen,
-                BuildTargetGroup.WSA 
+                BuildTargetGroup.WSA,
             };
 
 

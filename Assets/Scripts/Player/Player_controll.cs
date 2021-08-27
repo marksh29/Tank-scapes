@@ -10,9 +10,9 @@ public class Player_controll : MonoBehaviour
     [SerializeField] private int pos_state;
     [SerializeField] private float move_speed, fire_speed;
     public bool game, move, jump, down;    
-    [SerializeField] Transform fire_pos;
+    [SerializeField] Transform[] fire_pos;
     [SerializeField] private float[] xx_pos;
-    [SerializeField] private Animator player_anim, up_anim, fire_anim, down_anim;
+    [SerializeField] private Animator player_anim, up_anim, down_anim;
     [SerializeField] private Slider energy;
 
     [SerializeField] private GameObject[] enemys;
@@ -146,7 +146,7 @@ public class Player_controll : MonoBehaviour
                 cur_enemy = null;
 
             RaycastHit hit;
-            Physics.Raycast(fire_pos.position, fire_pos.TransformDirection(Vector3.forward), out hit, 9990);                     
+            Physics.Raycast(fire_pos[Player_ugrade.Instance.state_id].position, fire_pos[Player_ugrade.Instance.state_id].TransformDirection(Vector3.forward), out hit, 9990);                     
             if (hit.collider != null && hit.collider.gameObject.tag == "Enemy" && hit.collider.gameObject == cur_enemy)
             {
                 if (fire_speed <= 0 && !down) // --- auto shoot timer
@@ -208,11 +208,17 @@ public class Player_controll : MonoBehaviour
 
     IEnumerator Fire()
     {
-        fire_pos.transform.GetChild(0).gameObject.SetActive(true);
+        fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(true);
         GameObject bull = PoolControll.Instance.Spawn_player_bullet();
-        bull.transform.position = fire_pos.transform.position;
-        bull.transform.rotation = fire_pos.transform.rotation;
+        bull.transform.GetChild(0).gameObject.SetActive(Player_ugrade.Instance.state_id == 0 ? false : true); 
+        bull.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.position;
+        bull.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;
         yield return new WaitForSeconds(0.3f);
-        fire_pos.transform.GetChild(0).gameObject.SetActive(false);
-    }      
+        fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    public void OnTriggerEnter(Collider coll)
+    {
+        
+    }
 }

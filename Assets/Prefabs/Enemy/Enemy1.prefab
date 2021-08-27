@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e673a4e6b5756e45974820f7b3aac44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 1
+  life: 2
   damage: 0.1
   fire_pos: down
   explos_prefab: {fileID: 3568626767820925896}

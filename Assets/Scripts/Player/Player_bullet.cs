@@ -29,7 +29,7 @@ public class Player_bullet : MonoBehaviour
     {
         if(coll.gameObject.tag == "Enemy")
         {
-            coll.gameObject.GetComponent<Enemy>().Damage(Player_stats.Instance.ammo_power);
+            coll.gameObject.GetComponent<Enemy>().Damage(Player_stats.Instance.ammo_power * (Player_ugrade.Instance.state_id + 1));
             gameObject.SetActive(false);
         }
     }
