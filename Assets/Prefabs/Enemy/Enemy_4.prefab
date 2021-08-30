@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 8052018437617154968}
   m_Layer: 0
   m_Name: Enemy_4
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,6 +161,8 @@ MonoBehaviour:
   damage: 0
   fire_pos: 
   explos_prefab: {fileID: 8051602267354266595}
+  mesh:
+  - {fileID: 1334005475519395843}
 --- !u!1001 &8052018439574562413
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 294835385455416563}
   m_Layer: 0
   m_Name: Enemy3
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,6 +115,8 @@ MonoBehaviour:
   damage: 0.1
   fire_pos: down
   explos_prefab: {fileID: 2216190851973518129}
+  mesh:
+  - {fileID: 585351447883874665}
 --- !u!54 &294835385455416563
 Rigidbody:
   m_ObjectHideFlags: 0

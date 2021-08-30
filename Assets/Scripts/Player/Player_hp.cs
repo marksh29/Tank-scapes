@@ -7,8 +7,8 @@ public class Player_hp : MonoBehaviour
 {
     public static Player_hp Instance;
     [SerializeField] Slider life;
-    [SerializeField] GameObject blood;
-    [SerializeField]
+    [SerializeField] GameObject blood, explosion;
+    [SerializeField] 
     private void Awake()
     {
         if (Instance == null)
@@ -33,6 +33,7 @@ public class Player_hp : MonoBehaviour
 
         if(life.value <= 0)
         {
+            explosion.SetActive(true);
             Game_Controll.Instance.Lose();
         }
     }    

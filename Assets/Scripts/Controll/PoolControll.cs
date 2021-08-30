@@ -90,4 +90,25 @@ public class PoolControll : MonoBehaviour
         }
         return new_bullet;
     }
+    public GameObject Spawn_enemy_bullet()
+    {
+        bool not_empty = false;
+        for (int i = 0; i < en_bullet.Count; i++)
+        {
+            if (!en_bullet[i].activeSelf)
+            {
+                en_bullet[i].SetActive(true);
+                not_empty = true;
+                new_bullet = en_bullet[i];
+                break;
+            }
+        }
+        if (not_empty == false)
+        {
+            GameObject new_obj = Instantiate(bullet_enemy_prefab) as GameObject;
+            en_bullet.Add(new_obj);
+            new_bullet = new_obj;
+        }
+        return new_bullet;
+    }
 }

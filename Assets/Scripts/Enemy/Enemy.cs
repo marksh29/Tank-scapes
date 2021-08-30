@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] bool fire_enemy;
     [SerializeField] float life;
     [SerializeField] float damage;
     [SerializeField] string fire_pos;
     [SerializeField] GameObject explos_prefab;
-    
+    [SerializeField] MeshRenderer[] mesh;
     void Start()
     {
         
@@ -23,9 +24,14 @@ public class Enemy : MonoBehaviour
         StartCoroutine(Effect_on());
         if (life <= 0)
         {
-            gameObject.tag = "Untagged";                  
+            gameObject.tag = "Untagged";
+            for(int i = 0; i < mesh.Length; i++)
+            {
+                mesh[i].enabled = false;
+            }
             Destroy(gameObject, explos_prefab != null ? 1 : 0);
             Player_controll.Instance.Cleare_enemy(gameObject);
+            Off();
         }           
     }
     private void OnTriggerEnter(Collider coll)
@@ -48,5 +54,10 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(2);
         if (explos_prefab != null)
             explos_prefab.SetActive(false);
+    }
+    public void Off()
+    {
+        if(fire_enemy)
+            Player_controll.Instance.enemy_attack = false;
     }
 }

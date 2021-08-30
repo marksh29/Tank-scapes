@@ -9,7 +9,7 @@ public class Player_controll : MonoBehaviour
     [SerializeField] private GameObject _camera, cur_enemy;   
     [SerializeField] private int pos_state;
     [SerializeField] private float move_speed, fire_speed;
-    public bool game, move, jump, down;    
+    public bool game, move, jump, down, swipe_controll, enemy_attack;    
     [SerializeField] Transform[] fire_pos;
     [SerializeField] private float[] xx_pos;
     [SerializeField] private Animator player_anim, up_anim, down_anim;
@@ -30,7 +30,6 @@ public class Player_controll : MonoBehaviour
     }
     void Start()
     {
-        move_speed = Player_stats.Instance.move_speed;
         fire_speed = Player_stats.Instance.attack_speed;
         energy.value = 1;
         pos_state = 2;
@@ -46,9 +45,9 @@ public class Player_controll : MonoBehaviour
             if(fire_speed > 0)
                 fire_speed -= Time.deltaTime;
 
-            transform.Translate(Vector3.forward * move_speed * Time.deltaTime);
+            transform.Translate(Vector3.forward * (enemy_attack ? 10 : Player_stats.Instance.move_speed) * Time.deltaTime);
 
-            _camera.transform.position = new Vector3(transform.position.x, _camera.transform.position.y, transform.position.z);
+           // _camera.transform.position = new Vector3(transform.position.x, _camera.transform.position.y, transform.position.z);
 
             if (duble_clik_time > 0)  // -- double click timer remove
                 duble_clik_time -= Time.deltaTime;
@@ -122,18 +121,18 @@ public class Player_controll : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (cur_enemy == null)
-        {
-            enemys = new GameObject[0];
-            enemys = GameObject.FindGameObjectsWithTag("Enemy");
-            for (int i = 0; i < enemys.Length; i++)
-            {
-                if ((enemys[i].transform.position.z > transform.position.z + 10) && (cur_enemy == null || cur_enemy != null && enemys[i].transform.position.z < cur_enemy.transform.position.z))
-                {
-                    cur_enemy = enemys[i];
-                }
-            }
-        }
+        //if (cur_enemy == null)
+        //{
+        //    enemys = new GameObject[0];
+        //    enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        //    for (int i = 0; i < enemys.Length; i++)
+        //    {
+        //        if ((enemys[i].transform.position.z > transform.position.z + 10) && (cur_enemy == null || cur_enemy != null && enemys[i].transform.position.z < cur_enemy.transform.position.z))
+        //        {
+        //            cur_enemy = enemys[i];
+        //        }
+        //    }
+        //}
 
         if (cur_enemy != null && !jump)
         {
@@ -146,7 +145,7 @@ public class Player_controll : MonoBehaviour
                 cur_enemy = null;
 
             RaycastHit hit;
-            Physics.Raycast(fire_pos[Player_ugrade.Instance.state_id].position, fire_pos[Player_ugrade.Instance.state_id].TransformDirection(Vector3.forward), out hit, 9990);                     
+            Physics.Raycast(fire_pos[Player_ugrade.Instance.state_id].position, fire_pos[Player_ugrade.Instance.state_id].TransformDirection(Vector3.forward), out hit, 9990);
             if (hit.collider != null && hit.collider.gameObject.tag == "Enemy" && hit.collider.gameObject == cur_enemy)
             {
                 if (fire_speed <= 0 && !down) // --- auto shoot timer
@@ -210,7 +209,7 @@ public class Player_controll : MonoBehaviour
     {
         fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(true);
         GameObject bull = PoolControll.Instance.Spawn_player_bullet();
-        bull.transform.GetChild(0).gameObject.SetActive(Player_ugrade.Instance.state_id == 0 ? false : true); 
+        //bull.transform.GetChild(0).gameObject.SetActive(Player_ugrade.Instance.state_id == 0 ? false : true); 
         bull.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.position;
         bull.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;
         yield return new WaitForSeconds(0.3f);
@@ -220,5 +219,9 @@ public class Player_controll : MonoBehaviour
     public void OnTriggerEnter(Collider coll)
     {
         
+    }
+    public void Full_stop()
+    {
+        game = false;
     }
 }

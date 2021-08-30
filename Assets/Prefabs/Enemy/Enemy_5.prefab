@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 8212270371436996453}
   m_Layer: 0
   m_Name: Enemy_5
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1019,6 +1019,21 @@ MonoBehaviour:
   damage: 0
   fire_pos: 
   explos_prefab: {fileID: 8211282465975257950}
+  mesh:
+  - {fileID: 110914862150780076}
+  - {fileID: 6139014558385205362}
+  - {fileID: 5196983219212039598}
+  - {fileID: 5359084772262869789}
+  - {fileID: 1577801514102174245}
+  - {fileID: 6370111100827524048}
+  - {fileID: 7576958248558917401}
+  - {fileID: 5683632056402207262}
+  - {fileID: 6939173658816124097}
+  - {fileID: 5161701008399818420}
+  - {fileID: 6208941129404915491}
+  - {fileID: 7913003502620888281}
+  - {fileID: 1657080167955648978}
+  - {fileID: 659875232877978232}
 --- !u!1 &7620559545009565354
 GameObject:
   m_ObjectHideFlags: 0
