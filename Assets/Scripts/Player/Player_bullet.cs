@@ -28,6 +28,7 @@ public class Player_bullet : MonoBehaviour
     }
     private void OnBecameInvisible()
     {
+        Player_controll.Instance.enemy_attack = false;
         gameObject.SetActive(false);
     }
 }

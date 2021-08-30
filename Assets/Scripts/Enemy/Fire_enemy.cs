@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Fire_enemy : MonoBehaviour
 {
-    [SerializeField] GameObject player, bullet_prefab, fire_position;
+    [SerializeField] GameObject player, fire_position;
     [SerializeField] int cur_pos;
     [SerializeField] float[] min_max_pos;
     [SerializeField] float speed, fire_timer, move_timer;
@@ -34,10 +34,11 @@ public class Fire_enemy : MonoBehaviour
                 if (move_timer <= 0)
                     Change_move();
 
-                if (transform.position.z < player.transform.position.z)
-                {
-                   StartCoroutine(Full_stop());
-                }
+                //if (transform.position.z < player.transform.position.z)
+                //{
+                //   StartCoroutine(Full_stop());
+                //}
+
                 fire_timer -= Time.deltaTime;
                 if (fire_timer <= 0)
                     StartCoroutine(Fire_on());
@@ -88,10 +89,14 @@ public class Fire_enemy : MonoBehaviour
         // -- добавить анимации
         yield return new WaitForSeconds(1);
         GameObject bull = PoolControll.Instance.Spawn_enemy_bullet();
-        bull.transform.position = fire_position.transform.position;
+        bull.transform.position = new Vector3(transform.position.x, transform.position.y + 1 , transform.position.z);
         bull.transform.rotation = fire_position.transform.rotation;
         yield return new WaitForSeconds(1);
         fire_timer = Random.Range(2f, 4f);
         stay = false;
-    }       
+    }
+    private void OnBecameInvisible()
+    {
+        gameObject.SetActive(false);
+    }
 }

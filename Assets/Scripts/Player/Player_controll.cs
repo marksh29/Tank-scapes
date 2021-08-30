@@ -8,7 +8,7 @@ public class Player_controll : MonoBehaviour
     public static Player_controll Instance;
     [SerializeField] private GameObject _camera, cur_enemy;   
     [SerializeField] private int pos_state;
-    [SerializeField] private float move_speed, fire_speed;
+    [SerializeField] private float fire_speed;
     public bool game, move, jump, down, swipe_controll, enemy_attack;    
     [SerializeField] Transform[] fire_pos;
     [SerializeField] private float[] xx_pos;
@@ -30,6 +30,7 @@ public class Player_controll : MonoBehaviour
     }
     void Start()
     {
+        swipe_controll = Player_stats.Instance.swipe_controll;
         fire_speed = Player_stats.Instance.attack_speed;
         energy.value = 1;
         pos_state = 2;
@@ -38,7 +39,7 @@ public class Player_controll : MonoBehaviour
     }
     void Update()
     {
-        if(game)
+        if (game)
         {
             if (energy.value < 1)
                 energy.value += 0.1f * Time.deltaTime;
@@ -73,8 +74,8 @@ public class Player_controll : MonoBehaviour
                 }
                 firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             }
-
-            if (Input.GetMouseButtonUp(0) && !move && !jump && energy.value >= 0.2f)
+           
+            if(swipe_controll && Input.GetMouseButton(0) && !move && !jump)
             {
                 secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
@@ -82,43 +83,71 @@ public class Player_controll : MonoBehaviour
 
                 if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
                 {
-                    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip up
+                    if (currentSwipe.x < 0 && transform.position.x > xx_pos[0]) // swip left
                     {
-                        player_anim.speed = Player_stats.Instance.jump_speed;
-                        jump = true;
-                        player_anim.SetTrigger("up");
-                        StartCoroutine(Off(1 / player_anim.speed));
+                        transform.Translate(Vector2.left * Player_stats.Instance.swipe_speed * Time.deltaTime);
                     }
-                    if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip down
+                    if (currentSwipe.x > 0 && transform.position.x < xx_pos[4]) // swip right
                     {
-                        up_anim.speed = Player_stats.Instance.down_speed;
-                        down = true;
-                        up_anim.SetTrigger("down");
-                        StartCoroutine(Off(1 / up_anim.speed));
+                        transform.Translate(Vector2.right * Player_stats.Instance.swipe_speed * Time.deltaTime);
                     }
-                    if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
-                    {
-                        down_anim.speed = Player_stats.Instance.rotate_speed;
-                        pos_state = pos_state - 1;
-                        StartCoroutine(DoMove(1 / down_anim.speed));
-                        move = true;
-                        down_anim.SetTrigger("left");
-                        StartCoroutine(Off(1 / down_anim.speed));
-                    }
-                    if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
-                    {
-                        down_anim.speed = Player_stats.Instance.rotate_speed;
-                        pos_state = pos_state + 1;
-                        StartCoroutine(DoMove(1 / down_anim.speed));
-                        move = true;
-                        down_anim.SetTrigger("right");
-                        StartCoroutine(Off(1 / down_anim.speed));
-                    }
-                    energy.value -= 0.2f;
+                    energy.value -= 0.02f;
                 }
             }
+
+            if(Input.GetMouseButtonUp(0))
+            {
+                if (swipe_controll && !jump)
+                {
+
+                }
+                else if (!move && !jump && energy.value >= 0.2f)
+                {
+                    secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                    currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+                    currentSwipe.Normalize();
+
+                    if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
+                    {
+                        if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip up
+                        {
+                            player_anim.speed = Player_stats.Instance.jump_speed;
+                            jump = true;
+                            player_anim.SetTrigger("up");
+                            StartCoroutine(Off(1 / player_anim.speed));
+                        }
+                        if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip down
+                        {
+                            up_anim.speed = Player_stats.Instance.down_speed;
+                            down = true;
+                            up_anim.SetTrigger("down");
+                            StartCoroutine(Off(1 / up_anim.speed));
+                        }
+                        if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
+                        {
+                            down_anim.speed = Player_stats.Instance.rotate_speed;
+                            pos_state = pos_state - 1;
+                            StartCoroutine(DoMove(1 / down_anim.speed));
+                            move = true;
+                            down_anim.SetTrigger("left");
+                            StartCoroutine(Off(1 / down_anim.speed));
+                        }
+                        if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
+                        {
+                            down_anim.speed = Player_stats.Instance.rotate_speed;
+                            pos_state = pos_state + 1;
+                            StartCoroutine(DoMove(1 / down_anim.speed));
+                            move = true;
+                            down_anim.SetTrigger("right");
+                            StartCoroutine(Off(1 / down_anim.speed));
+                        }
+                        energy.value -= 0.2f;
+                    }
+                }
+            }           
         }
     }
+  
     private void LateUpdate()
     {
         //if (cur_enemy == null)

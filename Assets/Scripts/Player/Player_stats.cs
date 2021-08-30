@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Player_stats : MonoBehaviour
 {
+
     public static Player_stats Instance;
+    [HeaderAttribute("Управление свайпами")]
+    public bool swipe_controll;
+    [HeaderAttribute("Скорость смены полосы при свайпе")]
+    public float swipe_speed;
     [HeaderAttribute("Скорость атаки")]
     public float attack_speed;
     [HeaderAttribute("Скорость движения танка")]

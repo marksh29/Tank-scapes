@@ -17,13 +17,15 @@ public class Enemy_bullet : MonoBehaviour
             transform.Translate(Vector3.forward * Player_stats.Instance.enemy_ammo_speed * Time.deltaTime);
     }
     private void OnTriggerEnter(Collider coll)
-    {
+    {        
         if (coll.gameObject.tag == "Player")
         {
+            print(coll.gameObject.tag);
             dead = true;
             Player_hp.Instance.Damage(Player_stats.Instance.enemy_ammo_power);
             StartCoroutine(Off());
         }
+        gameObject.SetActive(false);
     }
     IEnumerator Off()
     {

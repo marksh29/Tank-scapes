@@ -5,28 +5,26 @@ public class Terra : MonoBehaviour
 {
     public GameObject[] TerrPrefab;
     public Transform Player;
-    public GameObject curTerr, old_terra;
+    public GameObject curTerr;
     public float playerPoz;
-	public float dlinaTerra; //вычислена экспериментально :)
+	public float dlinaTerra, rasst_ot_nachala; //вычислена экспериментально :)
     public bool stroyLevel = true;
 
     // Update is called once per frame
     void Update()
-    {
-        playerPoz = Player.position.z;
-      
-        if (playerPoz >= curTerr.transform.position.z + 50)
+    {      
+        if (Player.position.z + rasst_ot_nachala >= curTerr.transform.position.z)
         {
             stroyLevel = false;
-            CreateSegment(old_terra);
+            CreateSegment();
         }
     }
 
-    void CreateSegment(GameObject terr)
+    void CreateSegment()
     {
-        old_terra.transform.position = new Vector3(curTerr.transform.position.x, curTerr.transform.position.y, curTerr.transform.position.z + dlinaTerra);
-        old_terra = curTerr;
-        curTerr = terr;
+        GameObject obj = Instantiate(TerrPrefab[Random.Range(0, TerrPrefab.Length)], new Vector3(curTerr.transform.position.x,curTerr.transform.position.y, curTerr.transform.position.z + dlinaTerra), curTerr.transform.rotation) as GameObject;
+        Destroy(curTerr, 15);
+        curTerr = obj;
         stroyLevel = true;
     }
 }
