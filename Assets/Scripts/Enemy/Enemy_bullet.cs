@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy_bullet : MonoBehaviour
 {
+    [SerializeField] GameObject expl_other, expl_pl;
     bool dead;
     private void OnEnable()
     {
@@ -20,11 +21,19 @@ public class Enemy_bullet : MonoBehaviour
     {        
         if (coll.gameObject.tag == "Player")
         {
+            GameObject expl = Instantiate(expl_pl, gameObject.transform.position, transform.rotation) as GameObject;
+            DestroyObject(expl, 1);
             dead = true;
             Player_hp.Instance.Damage(Player_stats.Instance.enemy_ammo_power);
             StartCoroutine(Off());
+            gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
+        else if (coll.gameObject.tag == "Untagged" || coll.gameObject.tag == "Enemy")
+        {
+            GameObject expl = Instantiate(expl_other, transform.position, transform.rotation) as GameObject;
+            DestroyObject(expl, 1);
+            gameObject.SetActive(false);
+        }       
     }
     IEnumerator Off()
     {

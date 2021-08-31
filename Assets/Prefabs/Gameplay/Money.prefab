@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 52066974934022132}
   m_Layer: 0
   m_Name: Money
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,8 +108,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.010000938
-  m_Height: 0.0043697283
+  m_Radius: 0.002
+  m_Height: 0.01
   m_Direction: 1
   m_Center: {x: 0, y: -0.000029256225, z: 0.010000938}
 --- !u!54 &52066974934022132
@@ -165,11 +165,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 436358, guid: a79f8048fa75d6c449d730e96bb836fa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 436358, guid: a79f8048fa75d6c449d730e96bb836fa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.0255
       objectReference: {fileID: 0}
     - target: {fileID: 436358, guid: a79f8048fa75d6c449d730e96bb836fa, type: 3}
       propertyPath: m_LocalRotation.w

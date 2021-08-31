@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Terra : MonoBehaviour 
 {
+    int cur_terr_id;
     public GameObject[] TerrPrefab;
     public Transform Player;
     public GameObject curTerr;
@@ -22,9 +23,9 @@ public class Terra : MonoBehaviour
 
     void CreateSegment()
     {
-        GameObject obj = Instantiate(TerrPrefab[Random.Range(0, TerrPrefab.Length)], new Vector3(curTerr.transform.position.x,curTerr.transform.position.y, curTerr.transform.position.z + dlinaTerra), curTerr.transform.rotation) as GameObject;
-        Destroy(curTerr, 15);
+        GameObject obj = Instantiate(TerrPrefab[cur_terr_id], new Vector3(curTerr.transform.position.x,curTerr.transform.position.y, curTerr.transform.position.z + dlinaTerra), curTerr.transform.rotation) as GameObject;
         curTerr = obj;
         stroyLevel = true;
+        cur_terr_id = cur_terr_id + 1 == TerrPrefab.Length ? 0 : cur_terr_id + 1;
     }
 }

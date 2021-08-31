@@ -95,7 +95,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.88
+  m_Radius: 1.69
   m_Height: 5.1492796
   m_Direction: 2
   m_Center: {x: 0, y: 4.525538e-15, z: 2.318456}
@@ -111,7 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e673a4e6b5756e45974820f7b3aac44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  life_image: {fileID: 0}
+  fire_enemy: 0
   life: 2
+  start_life: 0
   damage: 0.1
   fire_pos: down
   explos_prefab: {fileID: 3568626767820925896}

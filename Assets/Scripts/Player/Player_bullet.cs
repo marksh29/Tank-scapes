@@ -5,7 +5,8 @@ using UnityEngine;
 public class Player_bullet : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] GameObject target;
+    [SerializeField] GameObject target, expl_other, expl_en;
+
     void Start()
     {
         
@@ -20,9 +21,18 @@ public class Player_bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider coll)
     {
+        print(coll.gameObject.tag);
         if(coll.gameObject.tag == "Enemy")
         {
+            GameObject expl = Instantiate(expl_en, gameObject.transform.position, transform.rotation) as GameObject;
+            DestroyObject(expl, 1);
             coll.gameObject.GetComponent<Enemy>().Damage(Player_stats.Instance.ammo_power);
+            gameObject.SetActive(false);
+        }
+        else if(coll.gameObject.tag != "Untagged")
+        {
+            GameObject expl = Instantiate(expl_other, transform.position, transform.rotation) as GameObject;
+            DestroyObject(expl, 1);
             gameObject.SetActive(false);
         }
     }

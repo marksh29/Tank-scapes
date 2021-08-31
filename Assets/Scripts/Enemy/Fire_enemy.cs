@@ -8,7 +8,7 @@ public class Fire_enemy : MonoBehaviour
     [SerializeField] int cur_pos;
     [SerializeField] float[] min_max_pos;
     [SerializeField] float speed, fire_timer, move_timer;
-    [SerializeField] bool stay, dead, fire;
+    public bool stay, dead, fire;
 
     private void OnEnable()
     {
@@ -40,7 +40,7 @@ public class Fire_enemy : MonoBehaviour
                 //}
 
                 fire_timer -= Time.deltaTime;
-                if (fire_timer <= 0)
+                if (fire_timer <= 0 && (player.transform.position.z - transform.position.z < Player_stats.Instance.enemy_distance - 20))
                     StartCoroutine(Fire_on());
             }
             else

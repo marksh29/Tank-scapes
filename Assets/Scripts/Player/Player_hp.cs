@@ -33,8 +33,9 @@ public class Player_hp : MonoBehaviour
 
         if(life.value <= 0)
         {
+            Player_controll.Instance.game = false;
             explosion.SetActive(true);
-            Game_Controll.Instance.Lose();
+            StartCoroutine(Lose());
         }
     }    
     IEnumerator Blood_on()
@@ -42,5 +43,10 @@ public class Player_hp : MonoBehaviour
         blood.SetActive(true);
         yield return new WaitForSeconds(1);
         blood.SetActive(false);
+    }
+    IEnumerator Lose()
+    {
+        yield return new WaitForSeconds(1);
+        Game_Controll.Instance.Lose();
     }
 }

@@ -8,7 +8,7 @@ public class Player_controll : MonoBehaviour
     public static Player_controll Instance;
     [SerializeField] private GameObject _camera, cur_enemy;   
     [SerializeField] private int pos_state;
-    [SerializeField] private float fire_speed;
+    [SerializeField] private float fire_speed, speed, max_speed;
     public bool game, move, jump, down, swipe_controll, enemy_attack;    
     [SerializeField] Transform[] fire_pos;
     [SerializeField] private float[] xx_pos;
@@ -30,13 +30,15 @@ public class Player_controll : MonoBehaviour
     }
     void Start()
     {
+        max_speed = Player_stats.Instance.move_speed;
+
         swipe_controll = Player_stats.Instance.swipe_controll;
         down_anim.gameObject.GetComponent<Animator>().enabled = !swipe_controll; 
 
         fire_speed = Player_stats.Instance.attack_speed;
         energy.value = 1;
         pos_state = 2;
-        transform.position = new Vector2(xx_pos[pos_state], 0);
+        transform.position = new Vector3(xx_pos[pos_state], transform.position.y, transform.position.z);
         game = true;
     }
     void Update()
@@ -48,7 +50,10 @@ public class Player_controll : MonoBehaviour
             if(fire_speed > 0)
                 fire_speed -= Time.deltaTime;
 
-            transform.Translate(Vector3.forward * (enemy_attack ? 10 : Player_stats.Instance.move_speed) * Time.deltaTime);
+            if (speed != max_speed)
+                speed += (speed < max_speed ? 5 : -5) * Time.deltaTime;
+
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
            // _camera.transform.position = new Vector3(transform.position.x, _camera.transform.position.y, transform.position.z);
 
@@ -172,23 +177,34 @@ public class Player_controll : MonoBehaviour
         }
         if (cur_enemy != null && !jump)
         {
-            Vector3 targetDirection = cur_enemy.transform.position - up_anim.gameObject.transform.position;
-            float singleStep = Player_stats.Instance.up_speed * Time.deltaTime;
-            Vector3 newDirection = Vector3.RotateTowards(up_anim.gameObject.transform.forward, targetDirection, singleStep, 0.0f);
-            up_anim.gameObject.transform.rotation = Quaternion.LookRotation(newDirection);
-
-            if (cur_enemy.transform.position.z < transform.position.z + 10)
-                cur_enemy = null;
-
-            RaycastHit hit;
-            Physics.Raycast(fire_pos[Player_ugrade.Instance.state_id].position, fire_pos[Player_ugrade.Instance.state_id].TransformDirection(Vector3.forward), out hit, 9990);
-            if (hit.collider != null && hit.collider.gameObject.tag == "Enemy" && hit.collider.gameObject == cur_enemy)
+            if(cur_enemy.transform.position.z - transform.position.z < Player_stats.Instance.enemy_distance)
             {
-                if (fire_speed <= 0 && !down) // --- auto shoot timer
+                enemy_attack = true;
+                max_speed = Player_stats.Instance.frize_move_speed;
+
+                Vector3 targetDirection = cur_enemy.transform.position - up_anim.gameObject.transform.position;
+                float singleStep = Player_stats.Instance.up_speed * Time.deltaTime;
+                Vector3 newDirection = Vector3.RotateTowards(up_anim.gameObject.transform.forward, targetDirection, singleStep, 0.0f);
+                up_anim.gameObject.transform.rotation = Quaternion.LookRotation(newDirection);
+
+                if (cur_enemy.transform.position.z < transform.position.z + 10)
+                    cur_enemy = null;
+
+                RaycastHit hit;
+                Physics.Raycast(fire_pos[Player_ugrade.Instance.state_id].position, fire_pos[Player_ugrade.Instance.state_id].TransformDirection(Vector3.forward), out hit, 9990);
+                if (hit.collider != null && hit.collider.gameObject.tag == "Enemy" && hit.collider.gameObject == cur_enemy)
                 {
-                    fire_speed = Player_stats.Instance.attack_speed;
-                    StartCoroutine(Fire());
+                    if (fire_speed <= 0 && !down) // --- auto shoot timer
+                    {
+                        fire_speed = Player_stats.Instance.attack_speed;
+                        StartCoroutine(Fire());
+                    }
                 }
+            }
+            else
+            {
+                enemy_attack = false;
+                max_speed = Player_stats.Instance.move_speed;
             }
         }
     }
