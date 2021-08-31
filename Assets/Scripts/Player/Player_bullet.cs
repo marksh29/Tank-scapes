@@ -21,7 +21,6 @@ public class Player_bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider coll)
     {
-        print(coll.gameObject.tag);
         if(coll.gameObject.tag == "Enemy")
         {
             GameObject expl = Instantiate(expl_en, gameObject.transform.position, transform.rotation) as GameObject;
@@ -29,7 +28,7 @@ public class Player_bullet : MonoBehaviour
             coll.gameObject.GetComponent<Enemy>().Damage(Player_stats.Instance.ammo_power);
             gameObject.SetActive(false);
         }
-        else if(coll.gameObject.tag != "Untagged")
+        else if(coll.gameObject.tag == "Untagged")
         {
             GameObject expl = Instantiate(expl_other, transform.position, transform.rotation) as GameObject;
             DestroyObject(expl, 1);

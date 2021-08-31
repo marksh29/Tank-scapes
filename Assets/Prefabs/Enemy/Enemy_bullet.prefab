@@ -9529,7 +9529,7 @@ GameObject:
   - component: {fileID: 3226577695880951854}
   - component: {fileID: 5669822596447335955}
   m_Layer: 0
-  m_Name: Enemy_fire
+  m_Name: Enemy_bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

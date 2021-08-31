@@ -261,11 +261,20 @@ public class Player_controll : MonoBehaviour
     {
         fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(true);
         GameObject bull = PoolControll.Instance.Spawn_player_bullet();
-        //bull.transform.GetChild(0).gameObject.SetActive(Player_ugrade.Instance.state_id == 0 ? false : true); 
         bull.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.position;
         bull.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;
         yield return new WaitForSeconds(0.3f);
         fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(false);
+        
+        if (Player_ugrade.Instance.state_id == 1)
+        {
+            fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(1).gameObject.SetActive(true);
+            GameObject bull1 = PoolControll.Instance.Spawn_player_bullet();
+            bull1.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.position;
+            bull1.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;
+        }
+        yield return new WaitForSeconds(0.3f);
+        fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(1).gameObject.SetActive(false);
     }
 
     public void OnTriggerEnter(Collider coll)
