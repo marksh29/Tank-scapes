@@ -19,6 +19,7 @@ public class Money : MonoBehaviour
         {
             GetComponent<MeshRenderer>().enabled = false;
             transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(false);
             Game_Controll.Instance.Add_money(1);
             Destroy(gameObject, 2);
         }

@@ -90,17 +90,31 @@ public class Player_controll : MonoBehaviour
 
                 if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
                 {
-                    if (currentSwipe.x < 0 && transform.position.x > xx_pos[0]) // swip left
+                    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f && !jump) // swip up
+                    {
+                        player_anim.speed = Player_stats.Instance.jump_speed;
+                        jump = true;
+                        player_anim.SetTrigger("up"); 
+                        StartCoroutine(Off(1 / player_anim.speed));
+                    }
+                    if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f && !down) // swip down
+                    {
+                        up_anim.speed = Player_stats.Instance.down_speed;
+                        down = true;
+                        up_anim.SetTrigger("down");
+                        StartCoroutine(Off(1 / up_anim.speed));
+                    }
+                    if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)//transform.position.x > xx_pos[0] && !jump) // swip left
                     {
                         down_anim.gameObject.transform.rotation = Quaternion.Euler(0, -20, 0);
-                        transform.Translate(Vector2.left * Player_stats.Instance.swipe_speed * Time.deltaTime);
-                        if(transform.position.x <= xx_pos[0])
+                        transform.Translate(Vector2.left * (Player_stats.Instance.swipe_speed * Speed_count()) * Time.deltaTime);
+                        if (transform.position.x <= xx_pos[0])
                             down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                     }
-                    if (currentSwipe.x > 0 && transform.position.x < xx_pos[4]) // swip right
+                    if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)//transform.position.x < xx_pos[4] && !jump) // swip right
                     {
                         down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 20, 0);
-                        transform.Translate(Vector2.right * Player_stats.Instance.swipe_speed * Time.deltaTime);
+                        transform.Translate(Vector2.right * (Player_stats.Instance.swipe_speed * Speed_count()) * Time.deltaTime);
                         if (transform.position.x >= xx_pos[4])
                             down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                     }
@@ -114,7 +128,8 @@ public class Player_controll : MonoBehaviour
                 {
                     down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
-                else if (!move && !jump && energy.value >= 0.2f)
+
+                if (!move && !jump && energy.value >= 0.2f)
                 {
                     secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                     currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
@@ -122,43 +137,53 @@ public class Player_controll : MonoBehaviour
 
                     if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
                     {
-                        if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip up
+                        //if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip up
+                        //{
+                        //    player_anim.speed = Player_stats.Instance.jump_speed;
+                        //    jump = true;
+                        //    player_anim.SetTrigger("up");
+                        //    StartCoroutine(Off(1 / player_anim.speed));
+                        //}
+                        //if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip down
+                        //{
+                        //    up_anim.speed = Player_stats.Instance.down_speed;
+                        //    down = true;
+                        //    up_anim.SetTrigger("down");
+                        //    StartCoroutine(Off(1 / up_anim.speed));
+                        //}
+
+                        if (!swipe_controll)
                         {
-                            player_anim.speed = Player_stats.Instance.jump_speed;
-                            jump = true;
-                            player_anim.SetTrigger("up");
-                            StartCoroutine(Off(1 / player_anim.speed));
-                        }
-                        if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip down
-                        {
-                            up_anim.speed = Player_stats.Instance.down_speed;
-                            down = true;
-                            up_anim.SetTrigger("down");
-                            StartCoroutine(Off(1 / up_anim.speed));
-                        }
-                        if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
-                        {
-                            down_anim.speed = Player_stats.Instance.rotate_speed;
-                            pos_state = pos_state - 1;
-                            StartCoroutine(DoMove(1 / down_anim.speed));
-                            move = true;
-                            down_anim.SetTrigger("left");
-                            StartCoroutine(Off(1 / down_anim.speed));
-                        }
-                        if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
-                        {
-                            down_anim.speed = Player_stats.Instance.rotate_speed;
-                            pos_state = pos_state + 1;
-                            StartCoroutine(DoMove(1 / down_anim.speed));
-                            move = true;
-                            down_anim.SetTrigger("right");
-                            StartCoroutine(Off(1 / down_anim.speed));
-                        }
-                        energy.value -= 0.2f;
+                            if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
+                            {
+                                down_anim.speed = Player_stats.Instance.rotate_speed;
+                                pos_state = pos_state - 1;
+                                StartCoroutine(DoMove(1 / down_anim.speed, xx_pos[pos_state]));
+                                move = true;
+                                down_anim.SetTrigger("left");
+                                StartCoroutine(Off(1 / down_anim.speed));
+                            }
+                            if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
+                            {
+                                down_anim.speed = Player_stats.Instance.rotate_speed;
+                                pos_state = pos_state + 1;
+                                StartCoroutine(DoMove(1 / down_anim.speed, xx_pos[pos_state]));
+                                move = true;
+                                down_anim.SetTrigger("right");
+                                StartCoroutine(Off(1 / down_anim.speed));
+                            }
+                            energy.value -= 0.2f;
+                        }                       
                     }
                 }
             }           
         }
+    }
+    float Speed_count()
+    {
+        float sp = new float();
+        sp = max_speed == Player_stats.Instance.move_speed ? (speed / max_speed) : (max_speed/ speed);
+        return sp;
     }
   
     private void LateUpdate()
@@ -173,7 +198,11 @@ public class Player_controll : MonoBehaviour
                 {
                     cur_enemy = enemys[i];
                 }
+                float singleStep = Player_stats.Instance.up_speed * Time.deltaTime;
+                Vector3 newDirection = Vector3.RotateTowards(up_anim.gameObject.transform.forward, transform.position, singleStep, 0.0f);
+                up_anim.gameObject.transform.rotation = Quaternion.LookRotation(newDirection);
             }
+
         }
         if (cur_enemy != null && !jump)
         {
@@ -210,28 +239,28 @@ public class Player_controll : MonoBehaviour
     }
     void Jump(int id)
     {
-        if (pos_state < 3 && id == 1)
+        if (id == 1 && (transform.position.x + 7 < 10))
         {
             player_anim.speed = Player_stats.Instance.duble_jump_speed;
             pos_state = pos_state + 2;
-            StartCoroutine(DoMove(1/player_anim.speed));
+            StartCoroutine(DoMove(1/player_anim.speed, transform.position.x + 7));
             jump = true;
             player_anim.SetTrigger("right");
             StartCoroutine(Off(1 / player_anim.speed));
         }
-        if (pos_state > 1 && id == 0)
+        if (id == 0 && (transform.position.x - 7 > -14))
         {
             player_anim.speed = Player_stats.Instance.duble_jump_speed;
             pos_state = pos_state - 2;
-            StartCoroutine(DoMove(1 / player_anim.speed));
+            StartCoroutine(DoMove(1 / player_anim.speed, transform.position.x - 7));
             jump = true;
             player_anim.SetTrigger("left");
             StartCoroutine(Off(1 / player_anim.speed));
         }
         duble_clik_time = 0f;
-    } 
-    
-    private IEnumerator DoMove(float time)
+    }
+
+    private IEnumerator DoMove(float time, float xx)
     {
         Vector2 startPosition = transform.position;
         float startTime = Time.realtimeSinceStartup;
@@ -239,7 +268,7 @@ public class Player_controll : MonoBehaviour
         while (fraction < 1f)
         {
             fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) / time);
-            transform.position = Vector3.Lerp(new Vector3(startPosition.x, transform.position.y, transform.position.z), new Vector3(xx_pos[pos_state], transform.position.y, transform.position.z), fraction);
+            transform.position = Vector3.Lerp(new Vector3(startPosition.x, transform.position.y, transform.position.z), new Vector3(xx, transform.position.y, transform.position.z), fraction);
             yield return null;
         }       
     }
@@ -274,7 +303,10 @@ public class Player_controll : MonoBehaviour
             bull1.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;
         }
         yield return new WaitForSeconds(0.3f);
-        fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(1).gameObject.SetActive(false);
+        if (Player_ugrade.Instance.state_id == 1)
+        {
+            fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(1).gameObject.SetActive(false);
+        }
     }
 
     public void OnTriggerEnter(Collider coll)

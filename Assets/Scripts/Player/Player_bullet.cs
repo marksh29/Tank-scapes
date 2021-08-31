@@ -21,6 +21,7 @@ public class Player_bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider coll)
     {
+        print(coll.gameObject.tag);
         if(coll.gameObject.tag == "Enemy")
         {
             GameObject expl = Instantiate(expl_en, gameObject.transform.position, transform.rotation) as GameObject;

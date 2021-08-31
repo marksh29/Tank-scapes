@@ -19,8 +19,10 @@ public class Enemy_bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider coll)
     {        
-        if (coll.gameObject.tag == "Player")
+
+        if (coll.gameObject.tag == "Player" || coll.gameObject.tag == "Finish")
         {
+            print(coll.gameObject.tag);
             GameObject expl = Instantiate(expl_pl, gameObject.transform.position, transform.rotation) as GameObject;
             DestroyObject(expl, 1);
             dead = true;

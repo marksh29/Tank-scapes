@@ -89,7 +89,7 @@ public class Fire_enemy : MonoBehaviour
         // -- добавить анимации
         yield return new WaitForSeconds(1);
         GameObject bull = PoolControll.Instance.Spawn_enemy_bullet();
-        bull.transform.position = new Vector3(transform.position.x, transform.position.y + 1 , transform.position.z);
+        bull.transform.position = new Vector3(transform.position.x, transform.position.y + 1.8f , transform.position.z);
         bull.transform.rotation = fire_position.transform.rotation;
         yield return new WaitForSeconds(1);
         fire_timer = Random.Range(2f, 4f);

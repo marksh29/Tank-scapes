@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter(Collider coll)
     {
-        if(coll.gameObject.tag == "Player")
+        if(coll.gameObject.tag == "Player" && ((!Player_controll.Instance.jump && fire_pos == "down") || fire_pos == ""))
         {
             Damage(10);
             if(!fire_enemy)

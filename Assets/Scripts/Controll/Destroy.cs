@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Destroy : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    Transform player;
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        
+        if (player.position.z - transform.position.z > 250)
+            Destroy(gameObject);
     }
     private void OnBecameInvisible()
     {
