@@ -65,7 +65,7 @@ public class Player_ugrade : MonoBehaviour
     }
     public void Update_tank(int id)
     {
-        if((id > 0 && state_id <2) || (id < 0 && state_id > 0))
+        if((id > 0 && state_id < 1) || (id < 0 && state_id > 0))
             state_id += id;
 
         for (int i = 0; i < up.Length; i++)

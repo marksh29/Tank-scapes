@@ -17,12 +17,14 @@ public class Money : MonoBehaviour
     {
         if (coll.gameObject.tag == "Player")
         {
+            GetComponent<MeshRenderer>().enabled = false;
+            transform.GetChild(0).gameObject.SetActive(true);
             Game_Controll.Instance.Add_money(1);
-            Destroy(gameObject);
+            Destroy(gameObject, 2);
         }
     }
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+       // Destroy(gameObject);
     }
 }

@@ -31,6 +31,8 @@ public class Player_controll : MonoBehaviour
     void Start()
     {
         swipe_controll = Player_stats.Instance.swipe_controll;
+        down_anim.gameObject.GetComponent<Animator>().enabled = !swipe_controll; 
+
         fire_speed = Player_stats.Instance.attack_speed;
         energy.value = 1;
         pos_state = 2;
@@ -75,7 +77,7 @@ public class Player_controll : MonoBehaviour
                 firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             }
            
-            if(swipe_controll && Input.GetMouseButton(0) && !move && !jump)
+            if(Input.GetMouseButton(0) && swipe_controll && !move && !jump)
             {
                 secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
@@ -85,11 +87,17 @@ public class Player_controll : MonoBehaviour
                 {
                     if (currentSwipe.x < 0 && transform.position.x > xx_pos[0]) // swip left
                     {
+                        down_anim.gameObject.transform.rotation = Quaternion.Euler(0, -20, 0);
                         transform.Translate(Vector2.left * Player_stats.Instance.swipe_speed * Time.deltaTime);
+                        if(transform.position.x <= xx_pos[0])
+                            down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                     }
                     if (currentSwipe.x > 0 && transform.position.x < xx_pos[4]) // swip right
                     {
+                        down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 20, 0);
                         transform.Translate(Vector2.right * Player_stats.Instance.swipe_speed * Time.deltaTime);
+                        if (transform.position.x >= xx_pos[4])
+                            down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                     }
                     energy.value -= 0.02f;
                 }
@@ -99,7 +107,7 @@ public class Player_controll : MonoBehaviour
             {
                 if (swipe_controll && !jump)
                 {
-
+                    down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
                 else if (!move && !jump && energy.value >= 0.2f)
                 {
@@ -150,19 +158,18 @@ public class Player_controll : MonoBehaviour
   
     private void LateUpdate()
     {
-        //if (cur_enemy == null)
-        //{
-        //    enemys = new GameObject[0];
-        //    enemys = GameObject.FindGameObjectsWithTag("Enemy");
-        //    for (int i = 0; i < enemys.Length; i++)
-        //    {
-        //        if ((enemys[i].transform.position.z > transform.position.z + 10) && (cur_enemy == null || cur_enemy != null && enemys[i].transform.position.z < cur_enemy.transform.position.z))
-        //        {
-        //            cur_enemy = enemys[i];
-        //        }
-        //    }
-        //}
-
+        if (cur_enemy == null)
+        {
+            enemys = new GameObject[0];
+            enemys = GameObject.FindGameObjectsWithTag("Enemy");
+            for (int i = 0; i < enemys.Length; i++)
+            {
+                if ((enemys[i].transform.position.z > transform.position.z + 10) && (cur_enemy == null || cur_enemy != null && enemys[i].transform.position.z < cur_enemy.transform.position.z))
+                {
+                    cur_enemy = enemys[i];
+                }
+            }
+        }
         if (cur_enemy != null && !jump)
         {
             Vector3 targetDirection = cur_enemy.transform.position - up_anim.gameObject.transform.position;

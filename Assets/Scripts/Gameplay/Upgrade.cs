@@ -21,12 +21,14 @@ public class Upgrade : MonoBehaviour
     {
         if (coll.gameObject.tag == "Player")
         {
+            transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(false);
             Player_ugrade.Instance.Update_tank(1);
-            Destroy(gameObject);
+            Destroy(gameObject, 2);
         }
     }
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

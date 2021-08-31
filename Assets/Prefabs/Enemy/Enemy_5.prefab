@@ -1018,7 +1018,7 @@ MonoBehaviour:
   fire_enemy: 0
   life: 1
   damage: 0.1
-  fire_pos: 0
+  fire_pos: down
   explos_prefab: {fileID: 8211282465975257950}
   mesh:
   - {fileID: 110914862150780076}

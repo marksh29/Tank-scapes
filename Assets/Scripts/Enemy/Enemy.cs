@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour
     }
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
     IEnumerator Effect_on()
     {

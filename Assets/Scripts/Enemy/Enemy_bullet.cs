@@ -20,7 +20,6 @@ public class Enemy_bullet : MonoBehaviour
     {        
         if (coll.gameObject.tag == "Player")
         {
-            print(coll.gameObject.tag);
             dead = true;
             Player_hp.Instance.Damage(Player_stats.Instance.enemy_ammo_power);
             StartCoroutine(Off());
