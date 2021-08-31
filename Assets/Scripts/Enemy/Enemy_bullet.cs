@@ -28,7 +28,7 @@ public class Enemy_bullet : MonoBehaviour
             StartCoroutine(Off());
             gameObject.SetActive(false);
         }
-        else if (coll.gameObject.tag == "Untagged" || coll.gameObject.tag == "Enemy")
+        else if (coll.gameObject.tag == "Untagged")
         {
             GameObject expl = Instantiate(expl_other, transform.position, transform.rotation) as GameObject;
             DestroyObject(expl, 1);
