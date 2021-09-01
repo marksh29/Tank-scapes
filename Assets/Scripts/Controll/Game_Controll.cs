@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 public class Game_Controll : MonoBehaviour
 {
     public static Game_Controll Instance;
@@ -10,7 +11,7 @@ public class Game_Controll : MonoBehaviour
     [SerializeField] GameObject lose_panel;
     [SerializeField] Text money_text;
     [SerializeField] int money_int;
-    
+    [SerializeField] float curve_timer;
     private void Awake()
     {
         Screen.orientation = ScreenOrientation.Portrait;
@@ -63,5 +64,11 @@ public class Game_Controll : MonoBehaviour
     {
         lose_panel.SetActive(true);
         Player_controll.Instance.game = false;
+    }
+
+    IEnumerator Back_curve(float time)
+    {
+        yield return new WaitForSeconds(time);
+        
     }
 }

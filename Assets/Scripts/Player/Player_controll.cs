@@ -196,7 +196,7 @@ public class Player_controll : MonoBehaviour
         }
         if (cur_enemy != null && !jump)
         {
-            if(cur_enemy.transform.position.z - transform.position.z < Player_stats.Instance.enemy_distance)
+            if(cur_enemy.transform.position.z - transform.position.z < Player_stats.Instance.enemy_distance - 20)
             {
                 enemy_attack = true;
                 max_speed = Player_stats.Instance.frize_move_speed;
