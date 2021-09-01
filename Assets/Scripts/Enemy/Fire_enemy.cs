@@ -7,7 +7,7 @@ public class Fire_enemy : MonoBehaviour
     [SerializeField] GameObject player, fire_position;
     [SerializeField] int cur_pos;
     [SerializeField] float[] min_max_pos;
-    [SerializeField] float speed, fire_timer, move_timer;
+    [SerializeField] float speed, fire_timer, move_timer, bullet_start_pos;
     public bool stay, dead, fire;
 
     private void OnEnable()
@@ -40,7 +40,7 @@ public class Fire_enemy : MonoBehaviour
                 //}
 
                 fire_timer -= Time.deltaTime;
-                if (fire_timer <= 0 && (player.transform.position.z - transform.position.z < Player_stats.Instance.enemy_distance - 20))
+                if (fire_timer <= 0 && (transform.position.z - player.transform.position.z < Player_stats.Instance.enemy_distance))
                     StartCoroutine(Fire_on());
             }
             else
@@ -89,7 +89,7 @@ public class Fire_enemy : MonoBehaviour
         // -- добавить анимации
         yield return new WaitForSeconds(1);
         GameObject bull = PoolControll.Instance.Spawn_enemy_bullet();
-        bull.transform.position = new Vector3(transform.position.x, transform.position.y + 1.8f , transform.position.z);
+        bull.transform.position = new Vector3(transform.position.x, transform.position.y + bullet_start_pos , transform.position.z);
         bull.transform.rotation = fire_position.transform.rotation;
         yield return new WaitForSeconds(1);
         fire_timer = Random.Range(2f, 4f);
@@ -98,5 +98,12 @@ public class Fire_enemy : MonoBehaviour
     private void OnBecameInvisible()
     {
         gameObject.SetActive(false);
+    }
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (coll.gameObject.tag == "Player")
+        { 
+            GetComponent<Enemy>().Damage(10);           
+        }
     }
 }

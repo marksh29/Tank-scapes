@@ -45,13 +45,14 @@ public class Player_controll : MonoBehaviour
     {
         if (game)
         {
-            if (energy.value < 1)
-                energy.value += 0.1f * Time.deltaTime;
+            //if (energy.value < 1)
+            //    energy.value += 0.1f * Time.deltaTime;
+
             if(fire_speed > 0)
                 fire_speed -= Time.deltaTime;
 
             if (speed != max_speed)
-                speed += (speed < max_speed ? 5 : -5) * Time.deltaTime;
+                speed += (speed < max_speed ? Player_stats.Instance.move_remove : (-Player_stats.Instance.move_remove * 3)) * Time.deltaTime;
 
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
@@ -82,7 +83,7 @@ public class Player_controll : MonoBehaviour
                 firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             }
            
-            if(Input.GetMouseButton(0) && swipe_controll && !move && !jump)
+            if(Input.GetMouseButton(0) && swipe_controll)
             {
                 secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
@@ -90,7 +91,7 @@ public class Player_controll : MonoBehaviour
 
                 if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
                 {
-                    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f && !jump) // swip up
+                    if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f && !jump && !move) // swip up
                     {
                         player_anim.speed = Player_stats.Instance.jump_speed;
                         jump = true;
@@ -104,8 +105,10 @@ public class Player_controll : MonoBehaviour
                         up_anim.SetTrigger("down");
                         StartCoroutine(Off(1 / up_anim.speed));
                     }
+
                     if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)//transform.position.x > xx_pos[0] && !jump) // swip left
                     {
+                        move = true;
                         down_anim.gameObject.transform.rotation = Quaternion.Euler(0, -20, 0);
                         transform.Translate(Vector2.left * (Player_stats.Instance.swipe_speed * Speed_count()) * Time.deltaTime);
                         if (transform.position.x <= xx_pos[0])
@@ -113,6 +116,7 @@ public class Player_controll : MonoBehaviour
                     }
                     if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)//transform.position.x < xx_pos[4] && !jump) // swip right
                     {
+                        move = true;
                         down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 20, 0);
                         transform.Translate(Vector2.right * (Player_stats.Instance.swipe_speed * Speed_count()) * Time.deltaTime);
                         if (transform.position.x >= xx_pos[4])
@@ -126,6 +130,7 @@ public class Player_controll : MonoBehaviour
             {
                 if (swipe_controll && !jump)
                 {
+                    move = false;
                     down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
 
@@ -137,21 +142,6 @@ public class Player_controll : MonoBehaviour
 
                     if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
                     {
-                        //if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip up
-                        //{
-                        //    player_anim.speed = Player_stats.Instance.jump_speed;
-                        //    jump = true;
-                        //    player_anim.SetTrigger("up");
-                        //    StartCoroutine(Off(1 / player_anim.speed));
-                        //}
-                        //if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f) // swip down
-                        //{
-                        //    up_anim.speed = Player_stats.Instance.down_speed;
-                        //    down = true;
-                        //    up_anim.SetTrigger("down");
-                        //    StartCoroutine(Off(1 / up_anim.speed));
-                        //}
-
                         if (!swipe_controll)
                         {
                             if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
@@ -289,20 +279,18 @@ public class Player_controll : MonoBehaviour
     IEnumerator Fire()
     {
         fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(true);
-        GameObject bull = PoolControll.Instance.Spawn_player_bullet();
-        bull.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.position;
+        GameObject bull = (Player_ugrade.Instance.state_id == 0 ?  PoolControll.Instance.Spawn_player_bullet_1() : PoolControll.Instance.Spawn_player_bullet_2());
+        bull.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).position;
         bull.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;
-        yield return new WaitForSeconds(0.3f);
-        fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(false);
-        
         if (Player_ugrade.Instance.state_id == 1)
         {
             fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(1).gameObject.SetActive(true);
-            GameObject bull1 = PoolControll.Instance.Spawn_player_bullet();
-            bull1.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.position;
+            GameObject bull1 = PoolControll.Instance.Spawn_player_bullet_2();
+            bull1.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(1).position;
             bull1.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;
         }
         yield return new WaitForSeconds(0.3f);
+        fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(false);
         if (Player_ugrade.Instance.state_id == 1)
         {
             fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(1).gameObject.SetActive(false);

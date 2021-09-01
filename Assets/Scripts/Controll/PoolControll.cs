@@ -5,9 +5,9 @@ using UnityEngine;
 public class PoolControll : MonoBehaviour
 {
     public static PoolControll Instance;
-    [SerializeField] private GameObject enemy_prefab, bullet_enemy_prefab, bullet_player_prefab;
-    [SerializeField] private List<GameObject> enemy_stac, en_bullet, pl_bullet;
-    [SerializeField] GameObject[] new_pos_obj;
+    [SerializeField] private GameObject enemy_prefab, bullet_enemy_prefab;
+    [SerializeField] private List<GameObject> enemy_stac, en_bullet, pl_bullet_1, pl_bullet_2;
+    [SerializeField] GameObject[] new_pos_obj, bullet_player_prefab;
     [SerializeField] Transform[] spawn_pos;
     GameObject new_bullet, obj;
     int diff;
@@ -32,9 +32,13 @@ public class PoolControll : MonoBehaviour
         {
             enemy_stac[i].SetActive(false);
         }
-        for (int i = 0; i < pl_bullet.Count; i++)
+        for (int i = 0; i < pl_bullet_1.Count; i++)
         {
-            pl_bullet[i].SetActive(false);
+            pl_bullet_1[i].SetActive(false);
+        }
+        for (int i = 0; i < pl_bullet_2.Count; i++)
+        {
+            pl_bullet_2[i].SetActive(false);
         }
         for (int i = 0; i < en_bullet.Count; i++)
         {
@@ -69,23 +73,44 @@ public class PoolControll : MonoBehaviour
     //}
    
    
-    public GameObject Spawn_player_bullet()
+    public GameObject Spawn_player_bullet_1()
     {
         bool not_empty = false;       
-        for (int i = 0; i < pl_bullet.Count; i++)
+        for (int i = 0; i < pl_bullet_1.Count; i++)
         {
-            if (!pl_bullet[i].activeSelf)
+            if (!pl_bullet_1[i].activeSelf)
             {
-                pl_bullet[i].SetActive(true);
+                pl_bullet_1[i].SetActive(true);
                 not_empty = true;
-                new_bullet = pl_bullet[i];
+                new_bullet = pl_bullet_1[i];
                 break;
             }
         }
         if (not_empty == false)
         {
-            GameObject new_obj = Instantiate(bullet_player_prefab) as GameObject;
-            pl_bullet.Add(new_obj);
+            GameObject new_obj = Instantiate(bullet_player_prefab[0]) as GameObject;
+            pl_bullet_1.Add(new_obj);
+            new_bullet = new_obj;
+        }
+        return new_bullet;
+    }
+    public GameObject Spawn_player_bullet_2()
+    {
+        bool not_empty = false;
+        for (int i = 0; i < pl_bullet_2.Count; i++)
+        {
+            if (!pl_bullet_2[i].activeSelf)
+            {
+                pl_bullet_2[i].SetActive(true);
+                not_empty = true;
+                new_bullet = pl_bullet_2[i];
+                break;
+            }
+        }
+        if (not_empty == false)
+        {
+            GameObject new_obj = Instantiate(bullet_player_prefab[1]) as GameObject;
+            pl_bullet_2.Add(new_obj);
             new_bullet = new_obj;
         }
         return new_bullet;
