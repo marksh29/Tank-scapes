@@ -24,7 +24,7 @@ public class Player_bullet : MonoBehaviour
         print(coll.gameObject.tag);
         if(coll.gameObject.tag == "Enemy")
         {
-            GameObject expl = Instantiate(expl_en[Player_ugrade.Instance.state_id == 0 ? 0 : Random.Range(0, expl_en.Length)], gameObject.transform.position, transform.rotation) as GameObject;
+            GameObject expl = Instantiate(expl_en[Player_ugrade.Instance.state_id == 0 ? 0 : Random.Range(0, expl_en.Length)], new Vector3 (transform.position.x, gameObject.transform.position.y + 2, transform.position.z - 1), transform.rotation) as GameObject;
             DestroyObject(expl, 1);
             coll.gameObject.GetComponent<Enemy>().Damage(Player_stats.Instance.ammo_power);
             gameObject.SetActive(false);

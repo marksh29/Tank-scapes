@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Fire_enemy : MonoBehaviour
 {
+    [SerializeField] Animator anim;
     [SerializeField] GameObject player, fire_position;
     [SerializeField] int cur_pos;
     [SerializeField] float[] min_max_pos;
@@ -12,6 +13,7 @@ public class Fire_enemy : MonoBehaviour
 
     private void OnEnable()
     {
+        //anim.SetTrigger("move");
         player = GameObject.FindGameObjectWithTag("Player");
         cur_pos = Random.Range(0, min_max_pos.Length);
         transform.position = new Vector3(min_max_pos[cur_pos], transform.position.y, transform.position.z);
@@ -41,7 +43,10 @@ public class Fire_enemy : MonoBehaviour
 
                 fire_timer -= Time.deltaTime;
                 if (fire_timer <= 0 && (transform.position.z - player.transform.position.z < Player_stats.Instance.enemy_distance - 20))
+                {
+                    anim.SetTrigger("fire");
                     StartCoroutine(Fire_on());
+                }                    
             }
             else
             {
@@ -72,7 +77,7 @@ public class Fire_enemy : MonoBehaviour
         StartCoroutine(DoMove(1/Player_stats.Instance.enemy_change_speed));
     }
     private IEnumerator DoMove(float time)
-    {        
+    {
         Vector2 startPosition = transform.position;
         float startTime = Time.realtimeSinceStartup;
         float fraction = 0f;
@@ -86,24 +91,31 @@ public class Fire_enemy : MonoBehaviour
     IEnumerator Fire_on()
     {
         stay = true;
-        // -- добавить анимации
         yield return new WaitForSeconds(1);
         GameObject bull = PoolControll.Instance.Spawn_enemy_bullet();
         bull.transform.position = new Vector3(transform.position.x, transform.position.y + bullet_start_pos , transform.position.z);
         bull.transform.rotation = fire_position.transform.rotation;
         yield return new WaitForSeconds(1);
-        fire_timer = Random.Range(2f, 4f);
+        fire_timer = Random.Range(2f, 4f);       
         stay = false;
+        anim.SetTrigger("move");
     }
-    private void OnBecameInvisible()
+    public void Dead()
     {
-        gameObject.SetActive(false);
+        dead = true;
+        anim.SetTrigger("dead");
+        GetComponent<CapsuleCollider>().enabled = false;        
     }
-    private void OnTriggerEnter(Collider coll)
-    {
-        if (coll.gameObject.tag == "Player")
-        { 
-            GetComponent<Enemy>().Damage(10);           
-        }
-    }
+    
+    //private void OnBecameInvisible()
+    //{
+    //    gameObject.SetActive(false);
+    //}
+    //private void OnTriggerEnter(Collider coll)
+    //{
+    //    if (coll.gameObject.tag == "Player")
+    //    { 
+    //        GetComponent<Enemy>().Damage(10);           
+    //    }
+    //}
 }

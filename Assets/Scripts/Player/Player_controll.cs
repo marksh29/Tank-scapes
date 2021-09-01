@@ -15,7 +15,7 @@ public class Player_controll : MonoBehaviour
     [SerializeField] private Animator player_anim, up_anim, down_anim;
     [SerializeField] private Slider energy;
 
-    [SerializeField] private GameObject[] enemys;
+    [SerializeField] private GameObject[] enemys, flame, smoke;
 
     Vector2 firstPressPos;
     Vector2 secondPressPos;
@@ -93,6 +93,11 @@ public class Player_controll : MonoBehaviour
                 {
                     if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f && !jump && !move) // swip up
                     {
+                        for (int i = 0; i < flame.Length; i++)
+                        {
+                            flame[i].SetActive(true);
+                        }
+
                         player_anim.speed = Player_stats.Instance.jump_speed;
                         jump = true;
                         player_anim.SetTrigger("up"); 
@@ -192,7 +197,6 @@ public class Player_controll : MonoBehaviour
                 Vector3 newDirection = Vector3.RotateTowards(up_anim.gameObject.transform.forward, transform.position, singleStep, 0.0f);
                 up_anim.gameObject.transform.rotation = Quaternion.LookRotation(newDirection);
             }
-
         }
         if (cur_enemy != null && !jump)
         {
@@ -229,8 +233,12 @@ public class Player_controll : MonoBehaviour
     }
     void Jump(int id)
     {
-        if (id == 1 && (transform.position.x + 7 < 10))
+        if (id == 1 && (transform.position.x + 7 < 10))  // ---в право
         {
+            for (int i = 0; i < 2; i++)
+            {
+                flame[i].SetActive(true);
+            }
             player_anim.speed = Player_stats.Instance.duble_jump_speed;
             pos_state = pos_state + 2;
             StartCoroutine(DoMove(1/player_anim.speed, transform.position.x + 7));
@@ -238,8 +246,12 @@ public class Player_controll : MonoBehaviour
             player_anim.SetTrigger("right");
             StartCoroutine(Off(1 / player_anim.speed));
         }
-        if (id == 0 && (transform.position.x - 7 > -14))
+        if (id == 0 && (transform.position.x - 7 > -14)) //--- в лево
         {
+            for (int i = 2; i < flame.Length; i++)
+            {
+                flame[i].SetActive(true);
+            }
             player_anim.speed = Player_stats.Instance.duble_jump_speed;
             pos_state = pos_state - 2;
             StartCoroutine(DoMove(1 / player_anim.speed, transform.position.x - 7));
@@ -264,7 +276,19 @@ public class Player_controll : MonoBehaviour
     }
     private IEnumerator Off(float time)
     {
+        for (int i = 0; i < smoke.Length; i++)
+        {
+            smoke[i].SetActive(false);
+        }
         yield return new WaitForSeconds(time);
+        for(int i =0; i < flame.Length; i++)
+        {
+            flame[i].SetActive(false);
+        }
+        for (int i = 0; i < smoke.Length; i++)
+        {
+            smoke[i].SetActive(true);
+        }
         jump = false;
         down = false;
         move = false;
@@ -281,7 +305,8 @@ public class Player_controll : MonoBehaviour
         fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).gameObject.SetActive(true);
         GameObject bull = (Player_ugrade.Instance.state_id == 0 ?  PoolControll.Instance.Spawn_player_bullet_1() : PoolControll.Instance.Spawn_player_bullet_2());
         bull.transform.position = fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(0).position;
-        bull.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;
+        bull.transform.rotation = fire_pos[Player_ugrade.Instance.state_id].transform.rotation;       
+        yield return new WaitForSeconds(0.2f);
         if (Player_ugrade.Instance.state_id == 1)
         {
             fire_pos[Player_ugrade.Instance.state_id].transform.GetChild(1).gameObject.SetActive(true);
