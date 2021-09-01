@@ -12,6 +12,8 @@ public class Player_stats : MonoBehaviour
     public float swipe_speed;
     [HeaderAttribute("Скорость атаки")]
     public float attack_speed;
+    [HeaderAttribute("Дистанция начала стрельбы")]
+    public float attack_distance;
     [HeaderAttribute("Скорость дистанции до врага для замедления")]
     public float enemy_distance;
     [HeaderAttribute("Скорость движения танка")]

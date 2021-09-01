@@ -42,7 +42,7 @@ public class Fire_enemy : MonoBehaviour
                 //}
 
                 fire_timer -= Time.deltaTime;
-                if (fire_timer <= 0 && (transform.position.z - player.transform.position.z < Player_stats.Instance.enemy_distance - 20))
+                if (fire_timer <= 0 && (transform.position.z - player.transform.position.z < Player_stats.Instance.attack_distance))
                 {
                     anim.SetTrigger("fire");
                     StartCoroutine(Fire_on());
