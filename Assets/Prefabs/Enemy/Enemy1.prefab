@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 2971213416883678426}
   - component: {fileID: 1071620959001712656}
   - component: {fileID: 1810091033678808214}
-  - component: {fileID: 1810091033678808215}
   - component: {fileID: -2094793413383377650}
+  - component: {fileID: -757043912767230215}
   m_Layer: 0
   m_Name: Enemy1
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1576213576635824581}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 5, y: -0.28, z: 5.76}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3570219121112621278}
   m_Father: {fileID: 0}
@@ -99,27 +99,6 @@ CapsuleCollider:
   m_Height: 5.1492796
   m_Direction: 2
   m_Center: {x: 0, y: 4.525538e-15, z: 2.318456}
---- !u!114 &1810091033678808215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1576213576635824581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e673a4e6b5756e45974820f7b3aac44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life_image: {fileID: 0}
-  fire_enemy: 0
-  life: 99999
-  start_life: 0
-  damage: 0.1
-  fire_pos: down
-  explos_prefab: {fileID: 3568626767820925896}
-  mesh:
-  - {fileID: 1071620959001712656}
 --- !u!54 &-2094793413383377650
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -136,6 +115,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-757043912767230215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576213576635824581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c69b1a0079c4046afc5f92eadb260c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.1
 --- !u!1001 &3568472284730979910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -257,12 +249,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6a622dcb6224014f923dc6743bf35d3, type: 3}
---- !u!1 &3568626767820925896 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1000012903210382, guid: a6a622dcb6224014f923dc6743bf35d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 3568472284730979910}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3570219121112621278 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000010921236120, guid: a6a622dcb6224014f923dc6743bf35d3,

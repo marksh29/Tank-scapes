@@ -7009,7 +7009,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    inWorldSpace: 0
+    inWorldSpace: 1
     randomizePerFrame: 0
   ExternalForcesModule:
     serializedVersion: 2
@@ -9508,7 +9508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf84f8fdb4d60f4e9ec7b56b7ddee22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  down_speed: 3
   target: {fileID: 0}
   expl_other: {fileID: 195742, guid: c83fb3ef04bb383408bb2064b89690b2, type: 3}
   expl_en:

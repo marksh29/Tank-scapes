@@ -14,7 +14,7 @@ public class Player_stats : MonoBehaviour
     public float attack_speed;
     [HeaderAttribute("Дистанция начала стрельбы")]
     public float attack_distance;
-    [HeaderAttribute("Скорость дистанции до врага для замедления")]
+    [HeaderAttribute("Дистанция до врага для замедления")]
     public float enemy_distance;
     [HeaderAttribute("Скорость движения танка")]
     public float move_speed;
@@ -26,6 +26,8 @@ public class Player_stats : MonoBehaviour
     public float rotate_speed;
     [HeaderAttribute("Скорость скорость убирания башни")]
     public float down_speed;
+    [HeaderAttribute("Длина бокового прыжка")]
+    public float duble_jump_dist;
     [HeaderAttribute("Скорость бокового прыжка")]
     public float duble_jump_speed;
     [HeaderAttribute("Продолжительность прыжка")]

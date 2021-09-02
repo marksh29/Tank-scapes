@@ -204,7 +204,7 @@ Material:
     - _Flipbook: 0
     - _FresnelHighlights: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _GlossyReflections: 1
     - _GoochRampIntensity: 0.5
     - _HatchingMapScale: 1

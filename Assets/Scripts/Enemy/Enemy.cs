@@ -23,56 +23,68 @@ public class Enemy : MonoBehaviour
     public void Damage(float id)
     {
         life -= id;
+        
         if (life_image != null)
-            life_image.fillAmount = life / start_life; 
+            life_image.fillAmount = life / start_life;
 
-        StartCoroutine(Effect_on());
+        if (explos_prefab != null)
+            StartCoroutine(Effect_on());
+        
         if (life <= 0)
         {
-            if (fire_enemy)
-                GetComponent<Fire_enemy>().dead = true;
-
             gameObject.tag = "Untagged";
+
             for (int i = 0; i < mesh.Length; i++)
             {
                 mesh[i].enabled = false;
             }
-            Player_controll.Instance.Cleare_enemy(gameObject);
+            Player_controll.Instance.Cleare_enemy();
+
             if (bomber)
             {
                 GetComponent<Bomber>().Dead();
             }                
             if (fire_enemy)
             {
+                GetComponent<Fire_enemy>().dead = true;
                 Player_controll.Instance.enemy_attack = false;
                 GetComponent<Fire_enemy>().Dead();
             }               
             else
             {
-                Destroy(gameObject, explos_prefab != null ? 1 : 0);
+                Destroy(gameObject, 2);
             }                
         }           
     }
     private void OnTriggerEnter(Collider coll)
     {
         if(coll.gameObject.tag == "Player")// && ((!Player_controll.Instance.jump && fire_pos == "down") || fire_pos == ""))
-        {           
-            if (bomber)
-            {
-
-                GetComponent<Bomber>().Dead();
-            }
-            if (fire_enemy)
-            {
-
-                GetComponent<Fire_enemy>().Dead();
-            }               
-            else
+        {
+            if(!Player_controll.Instance.jump)
             {
                 Player_hp.Instance.Damage(damage);
-                Player_ugrade.Instance.Update_tank(-1);
-                Damage(10);
-            }
+                //Player_ugrade.Instance.Update_tank(-1);
+            }               
+            Damage(10);
+
+            //if (bomber)
+            //{
+            //    Player_hp.Instance.Damage(damage);
+            //    Player_ugrade.Instance.Update_tank(-1);
+            //    GetComponent<Bomber>().Dead();
+            //}
+            //if (fire_enemy)
+            //{
+            //    Player_hp.Instance.Damage(damage);
+            //    Player_ugrade.Instance.Update_tank(-1);
+            //    GetComponent<Fire_enemy>().Dead();
+            //}
+            //else
+            //{
+            //    Player_hp.Instance.Damage(damage);
+            //    Player_ugrade.Instance.Update_tank(-1);
+            //    Damage(10);
+            //}
         }
     }
     private void OnBecameInvisible()
@@ -80,11 +92,9 @@ public class Enemy : MonoBehaviour
         //Destroy(gameObject);
     }
     IEnumerator Effect_on()
-    {
-        if (explos_prefab != null)
-            explos_prefab.SetActive(true);
+    {        
+        explos_prefab.SetActive(true);
         yield return new WaitForSeconds(2);
-        if (explos_prefab != null)
-            explos_prefab.SetActive(false);
+        explos_prefab.SetActive(false);
     }  
 }

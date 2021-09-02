@@ -25,7 +25,8 @@ public class Game_Controll : MonoBehaviour
         game = true;
         money_int = 0;
         money_text.text = money_int.ToString();
-        curve_timer = Random.Range(5, 10);
+        curve_timer = Random.Range(5, 10); 
+        
     }
     private void Update()
     {
