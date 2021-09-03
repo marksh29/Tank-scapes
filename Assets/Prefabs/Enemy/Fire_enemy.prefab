@@ -252,11 +252,17 @@ MonoBehaviour:
   fire: 0
   end: 0
   emojy:
-  - {fileID: 1442192875407592, guid: 5cc0cca5fc93dfc439639c1333bd23d2, type: 3}
-  - {fileID: 1904525989531952, guid: f57e08d89488661418c34eff8421ba63, type: 3}
-  - {fileID: 1696962831550462, guid: d013877b48ac7614996230588c20bdd4, type: 3}
   - {fileID: 173990, guid: 69359de5f8759454bbfe449e619129bc, type: 3}
+  - {fileID: 108838, guid: 09a90e7eaae91f341bcffca8790b850b, type: 3}
+  - {fileID: 153914, guid: 8a023b9610c630a4fa236b181e81d652, type: 3}
+  - {fileID: 1442192875407592, guid: 5cc0cca5fc93dfc439639c1333bd23d2, type: 3}
+  - {fileID: 180048, guid: f4c8701a23629b64fb9b7f03930743ae, type: 3}
   - {fileID: 110490, guid: 3a1dd40f2c911e541afb98fc9829ec06, type: 3}
+  - {fileID: 1696962831550462, guid: d013877b48ac7614996230588c20bdd4, type: 3}
+  - {fileID: 1904525989531952, guid: f57e08d89488661418c34eff8421ba63, type: 3}
+  - {fileID: 107074, guid: edd370375e09e0c42b2d890b1b52f38b, type: 3}
+  - {fileID: 191538, guid: e6a2bbccf919359499b0333920a2fabf, type: 3}
+  list: []
 --- !u!54 &8267925156649643610
 Rigidbody:
   m_ObjectHideFlags: 0
