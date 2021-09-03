@@ -110,7 +110,7 @@ public class Fire_enemy : MonoBehaviour
     }
     public void Emojy()
     {
-        GameObject obj = Instantiate(emojy[Random.Range(0, emojy.Length)], player.transform) as GameObject;
+        GameObject obj = Instantiate(emojy[Random.Range(0, emojy.Length)], player.transform.parent) as GameObject;
         obj.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 5);
         Destroy(obj, 2);
     }

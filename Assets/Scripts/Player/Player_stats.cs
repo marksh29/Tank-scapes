@@ -24,8 +24,8 @@ public class Player_stats : MonoBehaviour
     public float move_remove;
     [HeaderAttribute("Скорость движения танка при замедлении")]
     public float frize_move_speed;
-    [HeaderAttribute("Скорость смены полосы")]
-    public float rotate_speed;
+    //[HeaderAttribute("Скорость смены полосы")]
+    //public float rotate_speed;
     [HeaderAttribute("Скорость скорость убирания башни")]
     public float down_speed;
     [HeaderAttribute("Длина бокового прыжка")]
