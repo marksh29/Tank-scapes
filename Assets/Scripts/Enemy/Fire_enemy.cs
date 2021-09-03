@@ -11,6 +11,7 @@ public class Fire_enemy : MonoBehaviour
     [SerializeField] float speed, fire_timer, move_timer, bullet_start_pos;
     public bool stay, dead, fire, end;
     [SerializeField] GameObject[] emojy;
+    [SerializeField] List<GameObject> list;
 
     private void OnEnable()
     {
@@ -18,7 +19,7 @@ public class Fire_enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         cur_pos = Random.Range(0, min_max_pos.Length);
         transform.position = new Vector3(min_max_pos[cur_pos], transform.position.y, transform.position.z);
-        fire_timer = Random.Range(1f, 3f);
+        fire_timer = Player_stats.Instance.enemy_fire_time;
         move_timer = Random.Range(1f, 2f);
     }
     void Start()
@@ -27,7 +28,7 @@ public class Fire_enemy : MonoBehaviour
     }
     void Update()
     {
-        if(!dead)
+        if(!dead && transform.position.z - player.transform.position.z < Player_stats.Instance.enemy_distance)
         {
             if(!stay)
             {
@@ -89,22 +90,28 @@ public class Fire_enemy : MonoBehaviour
         GameObject bull = PoolControll.Instance.Spawn_enemy_bullet();
         bull.transform.position = new Vector3(transform.position.x, transform.position.y + bullet_start_pos , transform.position.z);
         bull.transform.rotation = fire_position.transform.rotation;
+        list.Add(bull);
         yield return new WaitForSeconds(1);
-        fire_timer = Random.Range(2f, 4f);       
+        fire_timer = Player_stats.Instance.enemy_fire_time;       
         stay = false;
         anim.SetTrigger("move");
     }
     public void Dead()
     {
-        StopAllCoroutines();
-        if(Player_controll.Instance.jump)
-        {
-            GameObject obj = Instantiate(emojy[Random.Range(0, emojy.Length)]) as GameObject;
-            obj.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 5);
-            Destroy(obj, 2);
-        }
         dead = true;
+        for (int i = 0; i < list.Count; i++)
+        {
+            list[i].SetActive(false);
+        }
+        StopAllCoroutines();       
         anim.SetTrigger("dead");
-        GetComponent<CapsuleCollider>().enabled = false;        
-    }  
+        GetComponent<CapsuleCollider>().enabled = false;
+        Emojy();
+    }
+    public void Emojy()
+    {
+        GameObject obj = Instantiate(emojy[Random.Range(0, emojy.Length)], player.transform) as GameObject;
+        obj.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z + 5);
+        Destroy(obj, 2);
+    }
 }

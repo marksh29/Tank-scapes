@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 439984242732066335}
   - component: {fileID: 439984242732066334}
   - component: {fileID: 439984242732066333}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Upgrade
   m_TagString: Respawn
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.16
+  m_Radius: 0.34
   m_Center: {x: 0, y: 0.57, z: 0}
 --- !u!54 &439984242732066334
 Rigidbody:
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 7807707850077779068}
   - component: {fileID: 7807707850058441044}
   - component: {fileID: 7807707850060200854}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PortalDust
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4842,7 +4842,7 @@ GameObject:
   - component: {fileID: 7807707850077869936}
   - component: {fileID: 7807707850058396706}
   - component: {fileID: 7807707850060183362}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BasicZoneYellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9597,7 +9597,7 @@ GameObject:
   - component: {fileID: 7807707850077773940}
   - component: {fileID: 7807707850058463590}
   - component: {fileID: 7807707850058408300}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: GlowCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14393,6 +14393,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boost (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e49f106835cfa3240bdcc4565338e2f1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e49f106835cfa3240bdcc4565338e2f1, type: 3}
 --- !u!4 &666313321767559306 stripped
@@ -14408,13 +14413,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 439984242732066330}
     m_Modifications:
+    - target: {fileID: 112990, guid: c51e34914bd18ff4880b11005334182e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 126554, guid: c51e34914bd18ff4880b11005334182e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 147324, guid: c51e34914bd18ff4880b11005334182e, type: 3}
       propertyPath: m_Name
       value: StarPoof
       objectReference: {fileID: 0}
     - target: {fileID: 147324, guid: c51e34914bd18ff4880b11005334182e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 147324, guid: c51e34914bd18ff4880b11005334182e, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 158566, guid: c51e34914bd18ff4880b11005334182e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 163444, guid: c51e34914bd18ff4880b11005334182e, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 435162, guid: c51e34914bd18ff4880b11005334182e, type: 3}
       propertyPath: m_RootOrder
@@ -14554,6 +14579,10 @@ PrefabInstance:
     - target: {fileID: 122062, guid: a1f601f8073d04c4986963b2dee4bfb6, type: 3}
       propertyPath: m_Name
       value: TreasureVerticalGlowRays
+      objectReference: {fileID: 0}
+    - target: {fileID: 122062, guid: a1f601f8073d04c4986963b2dee4bfb6, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 499642, guid: a1f601f8073d04c4986963b2dee4bfb6, type: 3}
       propertyPath: m_RootOrder

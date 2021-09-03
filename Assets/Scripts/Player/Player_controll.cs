@@ -9,7 +9,7 @@ public class Player_controll : MonoBehaviour
     [SerializeField] private GameObject _camera, cur_enemy;   
     [SerializeField] private int pos_state;
     [SerializeField] private float fire_speed, speed, max_speed;
-    public bool game, move, jump, down, swipe_controll, enemy_attack;    
+    public bool game, move, jump, up_jump, down, swipe_controll, enemy_attack;    
     [SerializeField] Transform[] fire_pos;
     [SerializeField] private float[] xx_pos;
     [SerializeField] private Animator player_anim, up_anim, down_anim;
@@ -61,7 +61,7 @@ public class Player_controll : MonoBehaviour
             if (duble_clik_time > 0)  // -- double click timer remove
                 duble_clik_time -= Time.deltaTime;
 
-            if (Input.GetMouseButtonDown(0) && !jump)
+            if (Input.GetMouseButtonDown(0) && !jump && !up_jump)
             {
                 if (Player_stats.Instance.auto_fire)  // --- ѕрицеливание по клику
                 {
@@ -80,15 +80,7 @@ public class Player_controll : MonoBehaviour
                     {
                         if (Mathf.Abs(Camera.main.WorldToScreenPoint(transform.position).y - Input.mousePosition.y) > Mathf.Abs(Camera.main.WorldToScreenPoint(transform.position).x - Input.mousePosition.x))
                         {
-                            for (int i = 0; i < flame.Length; i++)
-                            {
-                                flame[i].SetActive(true);
-                            }
-
-                            player_anim.speed = Player_stats.Instance.jump_speed;
-                            jump = true;
-                            player_anim.SetTrigger("up");
-                            StartCoroutine(Off(1 / player_anim.speed));
+                            Up_jump();
                         }
                         else
                         {
@@ -101,7 +93,7 @@ public class Player_controll : MonoBehaviour
                 firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             }
            
-            if(Input.GetMouseButton(0) && swipe_controll)
+            if(Input.GetMouseButton(0) && swipe_controll && !jump && !up_jump)
             {
                 secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                 currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
@@ -135,38 +127,37 @@ public class Player_controll : MonoBehaviour
                     move = false;
                     down_anim.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
+                //if (!move && !jump && energy.value >= 0.2f)
+                //{
+                //    secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                //    currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+                //    currentSwipe.Normalize();
 
-                if (!move && !jump && energy.value >= 0.2f)
-                {
-                    secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                    currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
-                    currentSwipe.Normalize();
-
-                    if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
-                    {
-                        if (!swipe_controll)
-                        {
-                            if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
-                            {
-                                down_anim.speed = Player_stats.Instance.rotate_speed;
-                                pos_state = pos_state - 1;
-                                StartCoroutine(DoMove(1 / down_anim.speed, xx_pos[pos_state], transform.position.y, transform.position.z));
-                                move = true;
-                                down_anim.SetTrigger("left");
-                                StartCoroutine(Off(1 / down_anim.speed));
-                            }
-                            if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
-                            {
-                                down_anim.speed = Player_stats.Instance.rotate_speed;
-                                pos_state = pos_state + 1;
-                                StartCoroutine(DoMove(1 / down_anim.speed, xx_pos[pos_state], transform.position.y, transform.position.z));
-                                move = true;
-                                down_anim.SetTrigger("right");
-                                StartCoroutine(Off(1 / down_anim.speed));
-                            }
-                        }                       
-                    }
-                }
+                //    if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
+                //    {
+                //        if (!swipe_controll)
+                //        {
+                //            if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state > 0) // swip left
+                //            {
+                //                down_anim.speed = Player_stats.Instance.rotate_speed;
+                //                pos_state = pos_state - 1;
+                //                StartCoroutine(DoMove(1 / down_anim.speed, xx_pos[pos_state], transform.position.y, transform.position.z));
+                //                move = true;
+                //                down_anim.SetTrigger("left");
+                //                StartCoroutine(Off(1 / down_anim.speed));
+                //            }
+                //            if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && pos_state < 4) // swip right
+                //            {
+                //                down_anim.speed = Player_stats.Instance.rotate_speed;
+                //                pos_state = pos_state + 1;
+                //                StartCoroutine(DoMove(1 / down_anim.speed, xx_pos[pos_state], transform.position.y, transform.position.z));
+                //                move = true;
+                //                down_anim.SetTrigger("right");
+                //                StartCoroutine(Off(1 / down_anim.speed));
+                //            }
+                //        }                       
+                //    }
+                //}
             }           
         }
     }
@@ -203,13 +194,14 @@ public class Player_controll : MonoBehaviour
             max_speed = Player_stats.Instance.move_speed;
         }
 
-        if (cur_enemy != null)
+        if (cur_enemy != null && !jump && !up_jump)
         {            
             if (cur_enemy.transform.position.z - transform.position.z < Player_stats.Instance.attack_distance)
             {
                 if(cur_enemy.GetComponent<Enemy>().boss_fire)
                     boss_fire = true;
-                if (Player_stats.Instance.auto_fire)  // --- ѕрицеливание по клику
+               
+                if (Player_stats.Instance.auto_fire)  // --- auto shoot
                 {
                     Vector3 targetDirection = new Vector3(cur_enemy.transform.position.x, up_anim.gameObject.transform.position.y, cur_enemy.transform.position.z) - up_anim.gameObject.transform.position;
                     float singleStep = Player_stats.Instance.up_speed * Time.deltaTime;
@@ -237,36 +229,53 @@ public class Player_controll : MonoBehaviour
             }
         }       
     }
+    void Up_jump()
+    {
+        up_jump = true;
+        for (int i = 0; i < flame.Length; i++)
+        {
+            flame[i].SetActive(true);
+        }
+        player_anim.speed = Player_stats.Instance.jump_speed;       
+        player_anim.SetTrigger("up");
+        StartCoroutine(Off(1 / player_anim.speed));
+    }
     void Jump(int id)
     {
-        if (id == 1 && (transform.position.x + Player_stats.Instance.duble_jump_dist < xx_pos[4]))  // ---в право
+        if (id == 1)  // ---в право
         {
+            if (transform.position.x + Player_stats.Instance.duble_jump_dist < xx_pos[4])  // ---в право
+                StartCoroutine(DoMove(1 / player_anim.speed, transform.position.x + Player_stats.Instance.duble_jump_dist, transform.position.y, transform.position.z));
+            else
+                StartCoroutine(DoMove(1 / player_anim.speed, xx_pos[xx_pos.Length - 1], transform.position.y, transform.position.z));
+           
             for (int i = 0; i < 2; i++)
             {
                 flame[i].SetActive(true);
             }
-            player_anim.speed = Player_stats.Instance.duble_jump_speed;
-            StartCoroutine(DoMove(1/player_anim.speed, transform.position.x + Player_stats.Instance.duble_jump_dist, transform.position.y, transform.position.z));
             jump = true;
+            player_anim.speed = Player_stats.Instance.duble_jump_speed;        
             player_anim.SetTrigger("right");
             StartCoroutine(Off(1 / player_anim.speed));
-        }        
-        if (id == 0 && (transform.position.x - Player_stats.Instance.duble_jump_dist > xx_pos[0])) //--- в лево
+        }       
+        if (id == 0) //--- в лево
         {
+            if (transform.position.x - Player_stats.Instance.duble_jump_dist > xx_pos[0])
+                StartCoroutine(DoMove(1 / player_anim.speed, transform.position.x - Player_stats.Instance.duble_jump_dist, transform.position.y, transform.position.z));
+            else
+                StartCoroutine(DoMove(1 / player_anim.speed, xx_pos[0], transform.position.y, transform.position.z));
+
             for (int i = 2; i < flame.Length; i++)
             {
                 flame[i].SetActive(true);
             }
-            player_anim.speed = Player_stats.Instance.duble_jump_speed;
-            StartCoroutine(DoMove(1 / player_anim.speed, transform.position.x - Player_stats.Instance.duble_jump_dist, transform.position.y, transform.position.z));
+            player_anim.speed = Player_stats.Instance.duble_jump_speed;           
             jump = true;
             player_anim.SetTrigger("left");
             StartCoroutine(Off(1 / player_anim.speed));
-        }
-       
+        }       
         duble_clik_time = 0f;
     }
-
     private IEnumerator DoMove(float time, float xx, float yy, float zz)
     {
         Vector2 startPosition = transform.position;
@@ -295,6 +304,7 @@ public class Player_controll : MonoBehaviour
         {
             smoke[i].SetActive(true);
         }
+        up_jump = false;
         jump = false;
         down = false;
         move = false;

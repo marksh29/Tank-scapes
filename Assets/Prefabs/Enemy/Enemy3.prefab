@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 294835385455416563}
   m_Layer: 0
   m_Name: Enemy3
-  m_TagString: Untagged
+  m_TagString: Barell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,10 +114,10 @@ MonoBehaviour:
   life_image: {fileID: 0}
   fire_enemy: 0
   bomber: 0
+  boss_fire: 0
   life: 1
   start_life: 0
   damage: 0.1
-  fire_pos: down
   explos_prefab: {fileID: 6420379480292603321}
   mesh:
   - {fileID: 585351447883874665}

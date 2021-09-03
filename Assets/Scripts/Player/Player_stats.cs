@@ -45,6 +45,8 @@ public class Player_stats : MonoBehaviour
 
     [HeaderAttribute("Скорость движения врага")]
     public float enemy_speed;
+    [HeaderAttribute("Частота атаки врага")]
+    public float enemy_fire_time;
     [HeaderAttribute("Сила атаки пули врага")]
     public float enemy_ammo_power;
     [HeaderAttribute("Скорость движения вражеской пули")]

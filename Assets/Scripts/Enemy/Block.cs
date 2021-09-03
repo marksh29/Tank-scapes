@@ -12,7 +12,7 @@ public class Block : MonoBehaviour
    
     private void OnTriggerEnter(Collider coll)
     {
-        if(coll.gameObject.tag == "Player")
+        if(coll.gameObject.tag == "Player" && !Player_controll.Instance.up_jump)
         {
             Player_hp.Instance.Damage(damage);
             Player_controll.Instance.Block();

@@ -49,9 +49,8 @@ public class Enemy : MonoBehaviour
             }
             else if (fire_enemy)
             {
-                GetComponent<Fire_enemy>().dead = true;
-                Player_controll.Instance.enemy_attack = false;
                 GetComponent<Fire_enemy>().Dead();
+                //Player_controll.Instance.enemy_attack = false;               
             }               
             else
             {
@@ -63,12 +62,18 @@ public class Enemy : MonoBehaviour
     {
         if(coll.gameObject.tag == "Player")// && ((!Player_controll.Instance.jump && fire_pos == "down") || fire_pos == ""))
         {
-            if(!Player_controll.Instance.jump)
+            if(!Player_controll.Instance.jump && coll.gameObject.tag !=  "Barell")
             {
                 Player_hp.Instance.Damage(damage);
-                //Player_ugrade.Instance.Update_tank(-1);
-            }               
-            Damage(10);          
+                Damage(10);
+            }
+            if (Player_controll.Instance.jump && fire_enemy)
+            {
+                //GetComponent<Fire_enemy>().Eojy();
+                Damage(10);
+            }
+            else
+                Damage(10);
         }
     }
     private void OnBecameInvisible()
