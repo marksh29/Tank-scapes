@@ -116,6 +116,7 @@ public class Fire_enemy : MonoBehaviour
     }
     public void Dead()
     {
+        StopAllCoroutines();
         if(Player_controll.Instance.jump)
         {
             GameObject obj = Instantiate(emojy[Random.Range(0, emojy.Length)]) as GameObject;

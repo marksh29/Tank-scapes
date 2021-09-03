@@ -8,6 +8,8 @@ public class Player_stats : MonoBehaviour
     public static Player_stats Instance;
     [HeaderAttribute("Управление свайпами")]
     public bool swipe_controll;
+    [HeaderAttribute("Автоматическая стрельба танка")]
+    public bool auto_fire;
     [HeaderAttribute("Скорость смены полосы при свайпе")]
     public float swipe_speed;
     [HeaderAttribute("Скорость атаки")]
@@ -38,6 +40,8 @@ public class Player_stats : MonoBehaviour
     public float ammo_speed;
     [HeaderAttribute("Сила атаки пули")]
     public float ammo_power;
+    [HeaderAttribute("Время полета пули")]
+    public float ammo_fly_time;
 
     [HeaderAttribute("Скорость движения врага")]
     public float enemy_speed;

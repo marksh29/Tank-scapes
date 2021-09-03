@@ -14304,6 +14304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expl_other: {fileID: 151354, guid: 666381b24c234194882b77851e943ef1, type: 3}
   expl_pl: {fileID: 151354, guid: 666381b24c234194882b77851e943ef1, type: 3}
+  down_speed: 3
 --- !u!65 &5669822596447335955
 BoxCollider:
   m_ObjectHideFlags: 0

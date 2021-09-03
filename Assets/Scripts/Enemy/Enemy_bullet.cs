@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class Enemy_bullet : MonoBehaviour
 {
+
     [SerializeField] GameObject expl_other, expl_pl;
+    [SerializeField] private float down_time;
     bool dead;
     private void OnEnable()
     {
         dead = false;
+        down_time = Player_stats.Instance.ammo_fly_time * 2.5f;
     }
 
     // Update is called once per frame
     void Update()
     {
         if(!dead)
+        {
             transform.Translate(Vector3.forward * Player_stats.Instance.enemy_ammo_speed * Time.deltaTime);
+            down_time -= Time.deltaTime;
+            if (down_time <= 0)
+            {
+                transform.Translate(Vector3.up * -10 *  Time.deltaTime);
+            }
+        }           
     }
     private void OnTriggerEnter(Collider coll)
     {        
