@@ -6,10 +6,9 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] Image life_image;
-    [SerializeField] bool fire_enemy, bomber;
+    [SerializeField] public bool fire_enemy, bomber, boss_fire;
     [SerializeField] float life, start_life;
     [SerializeField] float damage;
-    [SerializeField] string fire_pos;
     [SerializeField] GameObject explos_prefab;
     [SerializeField] MeshRenderer[] mesh;
     void Start()
@@ -43,8 +42,12 @@ public class Enemy : MonoBehaviour
             if (bomber)
             {
                 GetComponent<Bomber>().Dead();
-            }                
-            if (fire_enemy)
+            }
+            else if (boss_fire)
+            {
+                GetComponent<Boss_fire>().Dead();
+            }
+            else if (fire_enemy)
             {
                 GetComponent<Fire_enemy>().dead = true;
                 Player_controll.Instance.enemy_attack = false;
@@ -65,26 +68,7 @@ public class Enemy : MonoBehaviour
                 Player_hp.Instance.Damage(damage);
                 //Player_ugrade.Instance.Update_tank(-1);
             }               
-            Damage(10);
-
-            //if (bomber)
-            //{
-            //    Player_hp.Instance.Damage(damage);
-            //    Player_ugrade.Instance.Update_tank(-1);
-            //    GetComponent<Bomber>().Dead();
-            //}
-            //if (fire_enemy)
-            //{
-            //    Player_hp.Instance.Damage(damage);
-            //    Player_ugrade.Instance.Update_tank(-1);
-            //    GetComponent<Fire_enemy>().Dead();
-            //}
-            //else
-            //{
-            //    Player_hp.Instance.Damage(damage);
-            //    Player_ugrade.Instance.Update_tank(-1);
-            //    Damage(10);
-            //}
+            Damage(10);          
         }
     }
     private void OnBecameInvisible()

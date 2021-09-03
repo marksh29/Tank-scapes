@@ -196,7 +196,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.54
+  m_Radius: 0.39
   m_Height: 1.98
   m_Direction: 1
   m_Center: {x: 0, y: 0.72, z: 0}
@@ -215,10 +215,10 @@ MonoBehaviour:
   life_image: {fileID: 2888827912911766226}
   fire_enemy: 1
   bomber: 0
+  boss_fire: 0
   life: 2
   start_life: 0
   damage: 0.1
-  fire_pos: down
   explos_prefab: {fileID: 134325116659870116}
   mesh: []
 --- !u!114 &7275639999174323576
@@ -238,11 +238,11 @@ MonoBehaviour:
   fire_position: {fileID: 7275640000238997555}
   cur_pos: 0
   min_max_pos:
-  - -10.6
+  - -13
   - -5.2
   - 0
   - 5.2
-  - 10.6
+  - 13
   speed: 2
   fire_timer: 0
   move_timer: 0
@@ -659,6 +659,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: mask
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ecc63fffea479754791dbd5d22ce2b92,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc63fffea479754791dbd5d22ce2b92, type: 3}

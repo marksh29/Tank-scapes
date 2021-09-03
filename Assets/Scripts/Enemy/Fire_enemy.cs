@@ -37,11 +37,6 @@ public class Fire_enemy : MonoBehaviour
                 if (move_timer <= 0)
                     Change_move();
 
-                //if (transform.position.z < player.transform.position.z)
-                //{
-                //   StartCoroutine(Full_stop());
-                //}
-
                 fire_timer -= Time.deltaTime;
                 if (fire_timer <= 0 && (transform.position.z - player.transform.position.z < Player_stats.Instance.attack_distance))
                 {
@@ -66,25 +61,10 @@ public class Fire_enemy : MonoBehaviour
                 StartCoroutine(Fire_on());
             }
         }
-    }
-    //IEnumerator Full_stop()
-    //{
-    //    stay = true;
-    //    Player_controll.Instance.Full_stop();
-    //    // -- добавить анимации
-    //    yield return new WaitForSeconds(1);
-    //    Player_hp.Instance.Damage(1);
-    //}
+    }  
     void Change_move()
     {
-        move_timer = Random.Range(2f, 5f);
-        //if (cur_pos == 0)
-        //    cur_pos = 1;
-        //else if (cur_pos == 4)
-        //    cur_pos = 3;
-        //else
-        //    cur_pos = Random.Range(cur_pos - 1, cur_pos + 1);
-
+        move_timer = Random.Range(2f, 5f);        
         float pos = Random.Range(min_max_pos[0], min_max_pos[min_max_pos.Length - 1]);
         float time = Mathf.Abs(transform.position.x - pos) / 3;
         StartCoroutine(DoMove(time / Player_stats.Instance.enemy_change_speed, pos));
@@ -126,17 +106,5 @@ public class Fire_enemy : MonoBehaviour
         dead = true;
         anim.SetTrigger("dead");
         GetComponent<CapsuleCollider>().enabled = false;        
-    }
-    
-    //private void OnBecameInvisible()
-    //{
-    //    gameObject.SetActive(false);
-    //}
-    //private void OnTriggerEnter(Collider coll)
-    //{
-    //    if (coll.gameObject.tag == "Player")
-    //    { 
-    //        GetComponent<Enemy>().Damage(10);           
-    //    }
-    //}
+    }  
 }

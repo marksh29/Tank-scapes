@@ -16,12 +16,12 @@ public class Player_bullet : MonoBehaviour
         down_time = Player_stats.Instance.ammo_fly_time;
     }
     void Update()
-    {      
-        transform.Translate(Vector3.forward * Player_stats.Instance.ammo_speed * Time.deltaTime);
+    {            
+        transform.Translate(Vector3.forward * Player_stats.Instance.ammo_speed * Time.deltaTime);       
         down_time -= Time.deltaTime;
-        if(down_time <= 0)
+        if(down_time <= 0 && !Player_stats.Instance.auto_fire)
         {
-            transform.Translate(Vector3.up * -10 * Time.deltaTime);
+            transform.Translate(Vector3.up * (Player_stats.Instance.auto_fire ? -8 : - 10) * Time.deltaTime);
         }        
     }
     private void OnTriggerEnter(Collider coll)

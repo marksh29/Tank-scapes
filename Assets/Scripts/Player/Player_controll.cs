@@ -14,8 +14,8 @@ public class Player_controll : MonoBehaviour
     [SerializeField] private float[] xx_pos;
     [SerializeField] private Animator player_anim, up_anim, down_anim;
     [SerializeField] private Slider energy;
-
     [SerializeField] private GameObject[] enemys, flame, smoke;
+    [SerializeField] bool boss_fire;
 
     Vector2 firstPressPos;
     Vector2 secondPressPos;
@@ -54,8 +54,9 @@ public class Player_controll : MonoBehaviour
 
             if (speed != max_speed)
                 speed += (speed < max_speed ? Player_stats.Instance.move_remove : (-Player_stats.Instance.move_remove * 3)) * Time.deltaTime;
-                       
-            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        
+            if(!boss_fire)
+                transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
             if (duble_clik_time > 0)  // -- double click timer remove
                 duble_clik_time -= Time.deltaTime;
@@ -172,7 +173,14 @@ public class Player_controll : MonoBehaviour
     float Speed_count()
     {
         float sp = new float();
-        sp = max_speed == Player_stats.Instance.move_speed ? (speed / max_speed) : (max_speed/ speed);
+        if(cur_enemy == null || cur_enemy != null && !cur_enemy.GetComponent<Enemy>().boss_fire)
+        {
+            sp = max_speed == Player_stats.Instance.move_speed ? (speed / max_speed) : (max_speed / speed);
+        }
+        else if(cur_enemy != null && cur_enemy.GetComponent<Enemy>().boss_fire)
+        {
+            sp = 1;
+        }
         return sp;
     }
   
@@ -199,9 +207,11 @@ public class Player_controll : MonoBehaviour
         {            
             if (cur_enemy.transform.position.z - transform.position.z < Player_stats.Instance.attack_distance)
             {
+                if(cur_enemy.GetComponent<Enemy>().boss_fire)
+                    boss_fire = true;
                 if (Player_stats.Instance.auto_fire)  // --- Прицеливание по клику
                 {
-                    Vector3 targetDirection = cur_enemy.transform.position - up_anim.gameObject.transform.position;
+                    Vector3 targetDirection = new Vector3(cur_enemy.transform.position.x, up_anim.gameObject.transform.position.y, cur_enemy.transform.position.z) - up_anim.gameObject.transform.position;
                     float singleStep = Player_stats.Instance.up_speed * Time.deltaTime;
                     Vector3 newDirection = Vector3.RotateTowards(up_anim.gameObject.transform.forward, targetDirection, singleStep, 0.0f);
                     up_anim.gameObject.transform.rotation = Quaternion.LookRotation(newDirection);
@@ -294,6 +304,7 @@ public class Player_controll : MonoBehaviour
     public void Cleare_enemy()
     {
         cur_enemy = null;
+        boss_fire = false;
     }
 
     IEnumerator Fire()

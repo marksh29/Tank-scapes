@@ -14302,9 +14302,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee08a7494977091498807b4d43e615d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   expl_other: {fileID: 151354, guid: 666381b24c234194882b77851e943ef1, type: 3}
   expl_pl: {fileID: 151354, guid: 666381b24c234194882b77851e943ef1, type: 3}
-  down_speed: 3
+  down_time: 0
 --- !u!65 &5669822596447335955
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -7073,7 +7073,7 @@ ParticleSystem:
       m_Bits: 4294967295
     influenceList: []
   ClampVelocityModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -9508,8 +9508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf84f8fdb4d60f4e9ec7b56b7ddee22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  down_speed: 3
-  target: {fileID: 0}
+  down_time: 0
   expl_other: {fileID: 195742, guid: c83fb3ef04bb383408bb2064b89690b2, type: 3}
   expl_en:
   - {fileID: 5388279518001095097, guid: 511ca5cdd673c874489bf1014e3547fe, type: 3}
