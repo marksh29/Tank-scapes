@@ -41,6 +41,7 @@ public class Fire_enemy : MonoBehaviour
                 fire_timer -= Time.deltaTime;
                 if (fire_timer <= 0 && (transform.position.z - player.transform.position.z < Player_stats.Instance.attack_distance))
                 {
+                    fire_timer = Player_stats.Instance.enemy_fire_time;
                     StopAllCoroutines();
                     StartCoroutine(Fire_on(0.5f, false));
                 }                    

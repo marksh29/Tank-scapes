@@ -20184,7 +20184,7 @@ GameObject:
   - component: {fileID: 5437459431771499521}
   m_Layer: 0
   m_Name: scene_1
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37041,7 +37041,7 @@ GameObject:
   - component: {fileID: 8933530762887977846}
   - component: {fileID: 732965978144753131}
   - component: {fileID: 2951596619088363329}
-  - component: {fileID: 9127639483555405849}
+  - component: {fileID: 702057806761180886}
   m_Layer: 0
   m_Name: Fire_enemy (4)
   m_TagString: Enemy
@@ -37057,7 +37057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5942901122312017314}
   m_LocalRotation: {x: -0, y: 0.9994888, z: -0, w: 0.03197184}
-  m_LocalPosition: {x: -11.6, y: 0, z: -1}
+  m_LocalPosition: {x: -10.5, y: 0, z: -17.8}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 2239607872855122196}
@@ -37155,7 +37155,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &9127639483555405849
+--- !u!114 &702057806761180886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42762,7 +42762,7 @@ GameObject:
   - component: {fileID: 8332787660455683271}
   - component: {fileID: 5793891453079183358}
   - component: {fileID: 7080772475021261345}
-  - component: {fileID: 1447884151300368959}
+  - component: {fileID: 1415798065072697104}
   m_Layer: 0
   m_Name: Fire_enemy (5)
   m_TagString: Enemy
@@ -42876,7 +42876,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1447884151300368959
+--- !u!114 &1415798065072697104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43476,7 +43476,7 @@ GameObject:
   - component: {fileID: 8169262907375746871}
   - component: {fileID: 1799884570885630774}
   - component: {fileID: 3270940736167865240}
-  - component: {fileID: 6074622872565502261}
+  - component: {fileID: 4266493953158932156}
   m_Layer: 0
   m_Name: Fire_enemy (7)
   m_TagString: Enemy
@@ -43590,7 +43590,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6074622872565502261
+--- !u!114 &4266493953158932156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43903,13 +43903,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8364929464616972528}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6982466582590472538}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &4514930070212513937
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -43937,7 +43937,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f5b5a57f4255f7f4fb28f18b8932ffc9, type: 2}
+  - {fileID: 2100000, guid: e8791bee84ac9844196527cd3f17dd76, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
