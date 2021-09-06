@@ -20184,7 +20184,7 @@ GameObject:
   - component: {fileID: 5437459431771499521}
   m_Layer: 0
   m_Name: scene_1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37041,6 +37041,7 @@ GameObject:
   - component: {fileID: 8933530762887977846}
   - component: {fileID: 732965978144753131}
   - component: {fileID: 2951596619088363329}
+  - component: {fileID: 9127639483555405849}
   m_Layer: 0
   m_Name: Fire_enemy (4)
   m_TagString: Enemy
@@ -37137,6 +37138,7 @@ MonoBehaviour:
   - {fileID: 1696962831550462, guid: d013877b48ac7614996230588c20bdd4, type: 3}
   - {fileID: 173990, guid: 69359de5f8759454bbfe449e619129bc, type: 3}
   - {fileID: 110490, guid: 3a1dd40f2c911e541afb98fc9829ec06, type: 3}
+  list: []
 --- !u!54 &2951596619088363329
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -37153,6 +37155,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &9127639483555405849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5942901122312017314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa6b9b67bfa50bc4fbb4d76822ccc745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money_prefab: {fileID: 52066974934022130, guid: f859f3d80058cb743a2dcd0de2ade45a,
+    type: 3}
 --- !u!1 &5984844647982557653
 GameObject:
   m_ObjectHideFlags: 0
@@ -42746,6 +42762,7 @@ GameObject:
   - component: {fileID: 8332787660455683271}
   - component: {fileID: 5793891453079183358}
   - component: {fileID: 7080772475021261345}
+  - component: {fileID: 1447884151300368959}
   m_Layer: 0
   m_Name: Fire_enemy (5)
   m_TagString: Enemy
@@ -42842,6 +42859,7 @@ MonoBehaviour:
   - {fileID: 1696962831550462, guid: d013877b48ac7614996230588c20bdd4, type: 3}
   - {fileID: 173990, guid: 69359de5f8759454bbfe449e619129bc, type: 3}
   - {fileID: 110490, guid: 3a1dd40f2c911e541afb98fc9829ec06, type: 3}
+  list: []
 --- !u!54 &7080772475021261345
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -42858,6 +42876,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1447884151300368959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7115523047159154556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa6b9b67bfa50bc4fbb4d76822ccc745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money_prefab: {fileID: 52066974934022130, guid: f859f3d80058cb743a2dcd0de2ade45a,
+    type: 3}
 --- !u!1 &7172343742953964456
 GameObject:
   m_ObjectHideFlags: 0
@@ -43444,6 +43476,7 @@ GameObject:
   - component: {fileID: 8169262907375746871}
   - component: {fileID: 1799884570885630774}
   - component: {fileID: 3270940736167865240}
+  - component: {fileID: 6074622872565502261}
   m_Layer: 0
   m_Name: Fire_enemy (7)
   m_TagString: Enemy
@@ -43540,6 +43573,7 @@ MonoBehaviour:
   - {fileID: 1696962831550462, guid: d013877b48ac7614996230588c20bdd4, type: 3}
   - {fileID: 173990, guid: 69359de5f8759454bbfe449e619129bc, type: 3}
   - {fileID: 110490, guid: 3a1dd40f2c911e541afb98fc9829ec06, type: 3}
+  list: []
 --- !u!54 &3270940736167865240
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -43556,6 +43590,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6074622872565502261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7965693566178785760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa6b9b67bfa50bc4fbb4d76822ccc745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money_prefab: {fileID: 52066974934022130, guid: f859f3d80058cb743a2dcd0de2ade45a,
+    type: 3}
 --- !u!1 &7984504371431371523
 GameObject:
   m_ObjectHideFlags: 0
@@ -43843,7 +43891,7 @@ GameObject:
   - component: {fileID: 5766304162045084030}
   m_Layer: 0
   m_Name: bridge
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

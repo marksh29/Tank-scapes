@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9100516557798231517}
   m_Layer: 0
   m_Name: scene_empty_blue-white
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 7293645607603036322}
   m_Layer: 0
   m_Name: bridge
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

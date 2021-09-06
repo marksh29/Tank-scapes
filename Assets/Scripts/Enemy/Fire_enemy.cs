@@ -28,7 +28,7 @@ public class Fire_enemy : MonoBehaviour
     }
     void Update()
     {
-        if(!dead && transform.position.z - player.transform.position.z < Player_stats.Instance.enemy_distance)
+        if (!end && !dead && transform.position.z - player.transform.position.z < Player_stats.Instance.enemy_distance)
         {
             if(!stay)
             {
@@ -42,7 +42,7 @@ public class Fire_enemy : MonoBehaviour
                 if (fire_timer <= 0 && (transform.position.z - player.transform.position.z < Player_stats.Instance.attack_distance))
                 {
                     StopAllCoroutines();
-                    StartCoroutine(Fire_on());
+                    StartCoroutine(Fire_on(0.5f, false));
                 }                    
             }
             else
@@ -53,13 +53,13 @@ public class Fire_enemy : MonoBehaviour
                     gameObject.transform.rotation = Quaternion.LookRotation(newDirection);
             }
 
-            if(transform.position.z < player.transform.position.z && !end)
+            if(transform.position.z <= player.transform.position.z)
             {
-                Player_controll.Instance.Cleare_enemy();
                 end = true;
-                transform.LookAt(player.transform);
+                Player_controll.Instance.Cleare_enemy();                
+                transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z));
                 StopAllCoroutines();
-                StartCoroutine(Fire_on());
+                StartCoroutine(Fire_on(0.2f, true));
             }
         }
     }  
@@ -82,14 +82,16 @@ public class Fire_enemy : MonoBehaviour
             yield return null;
         }
     }
-    IEnumerator Fire_on()
+    IEnumerator Fire_on(float time, bool end_bullet)
     {
         anim.SetTrigger("fire");
         stay = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(time);
         GameObject bull = PoolControll.Instance.Spawn_enemy_bullet();
         bull.transform.position = new Vector3(transform.position.x, transform.position.y + bullet_start_pos , transform.position.z);
         bull.transform.rotation = fire_position.transform.rotation;
+        if (end)
+            bull.GetComponent<Enemy_bullet>().New_target();
         list.Add(bull);
         yield return new WaitForSeconds(1);
         fire_timer = Player_stats.Instance.enemy_fire_time;       
@@ -98,6 +100,7 @@ public class Fire_enemy : MonoBehaviour
     }
     public void Dead()
     {
+        GetComponent<Drop_money>().Spawn(Random.Range(3, 5));
         dead = true;
         for (int i = 0; i < list.Count; i++)
         {

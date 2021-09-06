@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Money : MonoBehaviour
 {
-    [SerializeField] float speed;
+    [SerializeField] float speed, force;
     void Start()
     {
+        Drop();
         speed = Random.Range(50f, 200f);
     }
     private void Update()
@@ -15,6 +16,13 @@ public class Money : MonoBehaviour
     }
     private void OnTriggerEnter(Collider coll)
     {
+        if (coll.gameObject.tag == "Ground")
+        {
+            GetComponent<Rigidbody>().useGravity = false;
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        }
+
         if (coll.gameObject.tag == "Player")
         {
             GetComponent<MeshRenderer>().enabled = false;
@@ -24,8 +32,9 @@ public class Money : MonoBehaviour
             Destroy(gameObject, 2);
         }
     }
-    private void OnBecameInvisible()
+   public void Drop()
     {
-       // Destroy(gameObject);
+        GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-0.2f,0.2f), 0.6f, Random.Range(-0.2f, 0.2f)) * force * Time.deltaTime, ForceMode.Impulse);
     }
 }

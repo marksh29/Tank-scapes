@@ -67,4 +67,8 @@ public class Enemy_bullet : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+    public void New_target()
+    {
+        target = new Vector3(player.position.x, 0, player.position.z + 5);
+    }
 }

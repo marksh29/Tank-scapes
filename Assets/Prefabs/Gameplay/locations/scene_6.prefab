@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2502125764610804356}
   m_Layer: 0
   m_Name: scene_6
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3637054100594420676}
-  - component: {fileID: 310529415063014217}
   m_Layer: 0
   m_Name: bridge_1
   m_TagString: Untagged
@@ -117,18 +116,6 @@ Transform:
   m_Father: {fileID: 1481411138641996297}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &310529415063014217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3675949405610125913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2109c5e7111d1b4fa09198beaa79c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4069028294279856424
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +131,7 @@ GameObject:
   - component: {fileID: 9210989134258625914}
   m_Layer: 0
   m_Name: bridge
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

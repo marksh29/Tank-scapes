@@ -100,7 +100,7 @@ public class Player_controll : MonoBehaviour
                 currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
                 currentSwipe.Normalize();
 
-                if (Vector3.Magnitude(secondPressPos - firstPressPos) > 100)
+                if (Vector3.Magnitude(secondPressPos - firstPressPos) > 50)
                 {
                     if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f && transform.position.x > xx_pos[0])//transform.position.x > xx_pos[0] && !jump) // swip left
                     {
